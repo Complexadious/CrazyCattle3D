@@ -1,0 +1,536 @@
+[gd_scene load_steps=14 format=3 uid="uid://dwa0bvxbkhi26"]
+
+[ext_resource type="Script" uid="uid://bmsi4f36mfknl" path="res://gd/environment/egypt/egypt.gd" id="1_pnl7o"]
+[ext_resource type="Texture2D" uid="uid://c2ft3k35qc07v" path="res://assets/environment/egypt/textures/egypt3.png" id="2_kiubs"]
+[ext_resource type="Texture2D" uid="uid://de0i0253ave7d" path="res://assets/environment/egypt/textures/redsand.png" id="3_dgf8q"]
+[ext_resource type="PackedScene" uid="uid://d8gnmkghjw4y" path="res://scenes/sheep/playernode.tscn" id="4_kmrs5"]
+[ext_resource type="PackedScene" uid="uid://bc1fshpqvqgqa" path="res://assets/misc/models/fence/fencircular.glb" id="5_i7j2w"]
+[ext_resource type="AudioStream" uid="uid://crsw0s6s6exhm" path="res://assets/environment/egypt/sounds/world2.wav" id="6_vqxt6"]
+[ext_resource type="PackedScene" uid="uid://c5yy5gx6p7nr6" path="res://assets/environment/egypt/models/pyramid/pyramid.glb" id="7_1p51i"]
+[ext_resource type="Texture2D" uid="uid://bgby244m6r4qs" path="res://assets/environment/egypt/textures/palmtree.png" id="8_qmajf"]
+[ext_resource type="PackedScene" uid="uid://bfllceqgmkr8f" path="res://scenes/sheep/characternode.tscn" id="9_7emxd"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7b2gm"]
+panorama = ExtResource("2_kiubs")
+energy_multiplier = 2.52
+
+[sub_resource type="Sky" id="Sky_wetts"]
+sky_material = SubResource("PanoramaSkyMaterial_7b2gm")
+
+[sub_resource type="Environment" id="Environment_0dwx2"]
+background_mode = 2
+background_color = Color(1, 1, 1, 1)
+sky = SubResource("Sky_wetts")
+sky_custom_fov = 76.1
+sky_rotation = Vector3(0.125664, -0.0523599, 0)
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 4.0
+ssao_enabled = true
+ssao_radius = 1.75
+ssao_intensity = 14.95
+ssil_intensity = 10.27
+sdfgi_enabled = true
+fog_enabled = true
+fog_light_color = Color(1, 0.454902, 0.211765, 1)
+fog_light_energy = 1.3
+fog_sky_affect = 0.182
+volumetric_fog_emission = Color(1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ompuh"]
+albedo_color = Color(0.672064, 0.672064, 0.672064, 1)
+albedo_texture = ExtResource("3_dgf8q")
+uv1_scale = Vector3(0.05, 0.05, 0.05)
+uv1_triplanar = true
+grow_amount = -16.0
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_pnl7o")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0dwx2")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.3291, -1.01638, -117.341)
+material_override = SubResource("StandardMaterial3D_ompuh")
+use_collision = true
+size = Vector3(624.43, 1, 635.964)
+metadata/_edit_lock_ = true
+
+[node name="Player" parent="." instance=ExtResource("4_kmrs5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.1371, 0.529594, -8.19333)
+
+[node name="fencircular" parent="." instance=ExtResource("5_i7j2w")]
+transform = Transform3D(4.15097, 0, 0, 0, 3.49015, 0, 0, 0, 4.15097, -8.26722, 2.39774, -48.6839)
+
+[node name="World2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_vqxt6")
+volume_db = -16.0
+autoplay = true
+bus = &"Music"
+
+[node name="Sheep" type="Node" parent="."]
+
+[node name="Sheep" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.523674, 0, 0.851919, 0, 1, 0, -0.851919, 0, 0.523674, 3.67698, 0.0162499, 9.96781)
+
+[node name="Sheep2" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.523674, 0, 0.851919, 0, 1, 0, -0.851919, 0, 0.523674, 3.08529, 0.0162494, -1.65437)
+
+[node name="Sheep3" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.523674, 0, 0.851919, 0, 1, 0, -0.851919, 0, 0.523674, -13.3832, 0.0162494, 4.20154)
+
+[node name="Sheep4" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.523674, 0, 0.851919, 0, 1, 0, -0.851919, 0, 0.523674, 6.27616, 0.0162494, -16.8212)
+
+[node name="Sheep5" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.523674, 0, 0.851919, 0, 1, 0, -0.851919, 0, 0.523674, -25.7896, 0.0162456, 2.25526)
+
+[node name="Sheep6" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.523674, 0, 0.851919, 0, 1, 0, -0.851919, 0, 0.523674, -12.7373, 0.0162342, 39.5531)
+
+[node name="Sheep7" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(-0.675757, 0, 0.737124, 0, 1, 0, -0.737124, 0, -0.675757, 64.5315, 0.0162494, -7.92875)
+
+[node name="Sheep8" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.940383, 0, -0.340117, 0, 1, 0, 0.340117, 0, 0.940383, -32.2002, 0.0162418, -40.665)
+
+[node name="Sheep9" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.6205, 0.016257, -51.9209)
+
+[node name="Sheep10" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.3154, 0.0162494, -84.8732)
+
+[node name="Sheep11" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.825744, 0, 0.564045, 0, 1, 0, -0.564045, 0, 0.825744, -22.5633, 0.0162494, -82.4505)
+
+[node name="Sheep12" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(-0.456135, 0, 0.88991, 0, 1, 0, -0.88991, 0, -0.456135, -73.544, 0.0162494, -52.9303)
+
+[node name="Sheep13" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(-0.879088, -0.387026, -0.278238, -0.119539, 0.744073, -0.657317, 0.461428, -0.544579, -0.70037, -75.5837, 0.0162494, 16.3736)
+
+[node name="Sheep14" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.876559, 0, 0.481295, 0, 1, 0, -0.481295, 0, 0.876559, -57.1867, 0.0162494, -128.787)
+
+[node name="Sheep15" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.27827, 0, 0.960503, 0, 1, 0, -0.960503, 0, 0.27827, -103.421, 0.0162494, -104.272)
+
+[node name="Sheep16" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(-0.602707, 0, 0.797963, 0, 1, 0, -0.797963, 0, -0.602707, -84.8918, 0.0162342, -17.5464)
+
+[node name="Sheep17" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.622187, 0, -0.782869, 0, 1, 0, 0.782869, 0, 0.622187, 27.2297, 0.0162647, -148.407)
+
+[node name="Sheep18" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.493365, 0, -0.869822, 0, 1, 0, 0.869822, 0, 0.493365, 78.9455, 0.0162647, -104.417)
+
+[node name="Sheep19" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.79468, 0, -0.607029, 0, 1, 0, 0.607029, 0, 0.79468, -35.5485, 0.0162499, -8.14018)
+
+[node name="Sheep20" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.79468, 0, -0.607029, 0, 1, 0, 0.607029, 0, 0.79468, -21.8444, 0.0162494, -9.13701)
+
+[node name="Sheep21" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.79468, 0, -0.607029, 0, 1, 0, 0.607029, 0, 0.79468, -26.0073, 0.0162494, -26.1127)
+
+[node name="Sheep22" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.79468, 0, -0.607029, 0, 1, 0, 0.607029, 0, 0.79468, -7.07732, 0.0162494, -4.43079)
+
+[node name="Sheep23" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, 0.717044, 0.0162494, -11.7709)
+
+[node name="Sheep24" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, -9.65156, 0.0162494, -25.8421)
+
+[node name="Sheep25" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, 16.1586, 0.0162494, -13.1029)
+
+[node name="Sheep26" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, -12.8243, 0.0162456, -20.1683)
+
+[node name="Sheep27" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, -44.7532, 0.0162342, 3.11326)
+
+[node name="Sheep28" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.510183, 0, 0.860066, 0, 1, 0, -0.860066, 0, 0.510183, 23.0468, 0.0162494, 63.3474)
+
+[node name="Sheep29" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.822621, 0, -0.568591, 0, 1, 0, 0.568591, 0, 0.822621, -29.4291, 0.0162418, -43.9515)
+
+[node name="Sheep30" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.79468, 0, -0.607029, 0, 1, 0, 0.607029, 0, 0.79468, -36.4715, 0.0162499, 0.0721045)
+
+[node name="Sheep31" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.79468, 0, -0.607029, 0, 1, 0, 0.607029, 0, 0.79468, -24.8489, 0.0162494, 0.657134)
+
+[node name="Sheep32" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.79468, 0, -0.607029, 0, 1, 0, 0.607029, 0, 0.79468, -29.0118, 0.0162494, -16.3186)
+
+[node name="Sheep33" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.79468, 0, -0.607029, 0, 1, 0, 0.607029, 0, 0.79468, -10.0818, 0.0162494, 5.36335)
+
+[node name="Sheep34" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, -2.28745, 0.0162494, -1.97681)
+
+[node name="Sheep35" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, -12.6561, 0.0162494, -16.0479)
+
+[node name="Sheep36" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, 13.1541, 0.0162494, -3.3088)
+
+[node name="Sheep37" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, -15.8287, 0.0162456, -10.3742)
+
+[node name="Sheep38" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, -47.7577, 0.0162342, 12.9074)
+
+[node name="Sheep39" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.510183, 0, 0.860066, 0, 1, 0, -0.860066, 0, 0.510183, 20.0423, 0.0162494, 73.1415)
+
+[node name="Sheep40" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.822621, 0, -0.568591, 0, 1, 0, 0.568591, 0, 0.822621, -32.4336, 0.0162418, -34.1574)
+
+[node name="Sheep41" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.977728, 0, -0.209875, 0, 1, 0, 0.209875, 0, 0.977728, 30.8499, 0.016257, -42.2022)
+
+[node name="Sheep42" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.977728, 0, -0.209875, 0, 1, 0, 0.209875, 0, 0.977728, 21.8238, 0.0162494, -77.8426)
+
+[node name="Sheep43" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.925732, 0, 0.37818, 0, 1, 0, -0.37818, 0, 0.925732, -10.8311, 0.0162494, -82.3742)
+
+[node name="Sheep44" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(-0.259207, 0, 0.965821, 0, 1, 0, -0.965821, 0, -0.259207, -66.8719, 0.0162494, -64.2111)
+
+[node name="Sheep45" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(-0.956351, -0.264113, -0.125051, -0.119539, 0.744073, -0.657317, 0.266653, -0.613677, -0.743167, -83.4113, 0.0162494, 3.12125)
+
+[node name="Sheep46" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.958048, 0, 0.286608, 0, 1, 0, -0.286608, 0, 0.958048, -40.1755, 0.0162494, -117.54)
+
+[node name="Sheep47" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.473658, 0, 0.880709, 0, 1, 0, -0.880709, 0, 0.473658, -90.5254, 0.0162494, -103.274)
+
+[node name="Sheep48" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(-0.421812, 0, 0.906684, 0, 1, 0, -0.906684, 0, -0.421812, -90.6101, 0.0162342, -14.5913)
+
+[node name="Sheep49" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.444025, 0, -0.896014, 0, 1, 0, 0.896014, 0, 0.444025, 46.4786, 0.0162647, -119.006)
+
+[node name="Sheep50" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.299823, 0, -0.953994, 0, 1, 0, 0.953994, 0, 0.299823, 87.8102, 0.0162647, -65.1417)
+
+[node name="Sheep51" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.649581, 0, -0.760293, 0, 1, 0, 0.760293, 0, 0.649581, -41.9727, 0.0162499, 3.85159)
+
+[node name="Sheep52" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.649581, 0, -0.760293, 0, 1, 0, 0.760293, 0, 0.649581, -30.7318, 0.0162494, 6.86287)
+
+[node name="Sheep53" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.649581, 0, -0.760293, 0, 1, 0, 0.760293, 0, 0.649581, -31.2392, 0.0162494, -10.6085)
+
+[node name="Sheep54" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.649581, 0, -0.760293, 0, 1, 0, 0.760293, 0, 0.649581, -17.2813, 0.0162494, 14.5635)
+
+[node name="Sheep55" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.821926, 0, -0.569595, 0, 1, 0, 0.569595, 0, 0.821926, -22.7635, 0.0162456, -20.0012)
+
+[node name="Sheep56" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.821926, 0, -0.569595, 0, 1, 0, 0.569595, 0, 0.821926, -60.7209, 0.0162342, -9.01358)
+
+[node name="Sheep57" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.579195, 0, -0.815189, 0, 1, 0, 0.815189, 0, 0.579195, -30.2551, 0.0162418, -48.0233)
+
+[node name="Sheep58" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.821926, 0, -0.569595, 0, 1, 0, 0.569595, 0, 0.821926, 24.5025, 0.016257, -23.7708)
+
+[node name="Sheep59" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.821926, 0, -0.569595, 0, 1, 0, 0.569595, 0, 0.821926, 29.8703, 0.0162494, -60.1424)
+
+[node name="Sheep60" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.999978, 0, -0.00673681, 0, 1, 0, 0.00673681, 0, 0.999978, 1.4665, 0.0162494, -76.8787)
+
+[node name="Sheep61" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.131979, 0, 0.991252, 0, 1, 0, -0.991252, 0, 0.131979, -57.2504, 0.0162494, -81.6537)
+
+[node name="Sheep62" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(-0.987144, 0.0193274, 0.158663, 0.00630921, 0.9966, -0.0821469, -0.159711, -0.0800894, -0.98391, -98.402, 0.0162494, -25.8529)
+
+[node name="Sheep63" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.994609, 0, -0.103696, 0, 1, 0, 0.103696, 0, 0.994609, -12.1054, 0.0162494, -120.622)
+
+[node name="Sheep64" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.775815, 0, 0.630961, 0, 1, 0, -0.630961, 0, 0.775815, -64.0699, 0.0162494, -126.808)
+
+[node name="Sheep65" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(-0.0408643, 0, 0.999164, 0, 1, 0, -0.999164, 0, -0.0408643, -98.2387, 0.0162342, -44.9716)
+
+[node name="Sheep66" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.0654728, 0, -0.997854, 0, 1, 0, 0.997854, 0, 0.0654728, 68.4543, 0.0162647, -88.6656)
+
+[node name="Sheep67" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(-0.0899369, 0, -0.995947, 0, 1, 0, 0.995947, 0, -0.0899369, 85.9043, 0.0162647, -23.0518)
+
+[node name="Sheep68" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.999005, 0, 0.0445958, 0, 1, 0, -0.0445958, 0, 0.999005, -17.7831, 0.0162494, -173.611)
+
+[node name="Sheep69" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.474721, -0.000639924, -0.880136, -0.00219674, 0.999996, -0.00191195, 0.880134, 0.00284108, 0.474717, -54.2943, -0.11862, -2.29722)
+
+[node name="Sheep70" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.474721, -0.000639924, -0.880136, -0.00219674, 0.999996, -0.00191195, 0.880134, 0.00284108, 0.474717, -41.8414, -0.12709, -0.489175)
+
+[node name="Sheep71" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.474721, -0.000639924, -0.880136, -0.00219674, 0.999996, -0.00191195, 0.880134, 0.00284108, 0.474717, -40.7538, -0.0762247, -14.1698)
+
+[node name="Sheep72" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.474721, -0.000639924, -0.880136, -0.00219674, 0.999996, -0.00191195, 0.880134, 0.00284108, 0.474717, -32.4157, -0.149156, 13.3788)
+
+[node name="Sheep73" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.474721, -0.000639924, -0.880136, -0.00219674, 0.999996, -0.00191195, 0.880134, 0.00284108, 0.474717, -32.8515, -0.0434426, -23.9297)
+
+[node name="Sheep74" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.474721, -0.000639924, -0.880136, -0.00219674, 0.999996, -0.00191195, 0.880134, 0.00284108, 0.474717, -71.6683, -0.0472718, -31.3292)
+
+[node name="Sheep75" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.14707, -0.000639924, -0.989126, -0.00271607, 0.999996, -0.00105081, 0.989122, 0.00284108, 0.147068, -26.8362, 0.0410205, -52.3053)
+
+[node name="Sheep76" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.940383, 0, -0.340117, 0, 1, 0, 0.340117, 0, 0.940383, -26.578, 0.0162418, -37.4729)
+
+[node name="Sheep77" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.822621, 0, -0.568591, 0, 1, 0, 0.568591, 0, 0.822621, -23.8069, 0.0162418, -40.7594)
+
+[node name="Sheep78" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.822621, 0, -0.568591, 0, 1, 0, 0.568591, 0, 0.822621, -26.8114, 0.0162418, -30.9652)
+
+[node name="Sheep79" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.579195, 0, -0.815189, 0, 1, 0, 0.815189, 0, 0.579195, -24.6329, 0.0162418, -44.8311)
+
+[node name="Sheep80" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.14707, -0.000639924, -0.989126, -0.00271607, 0.999996, -0.00105081, 0.989122, 0.00284108, 0.147068, -21.2141, 0.0410205, -49.1132)
+
+[node name="Sheep81" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.940383, 0, -0.340117, 0, 1, 0, 0.340117, 0, 0.940383, -19.8158, 0.0162418, -35.0727)
+
+[node name="Sheep82" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.822621, 0, -0.568591, 0, 1, 0, 0.568591, 0, 0.822621, -17.0447, 0.0162418, -38.3592)
+
+[node name="Sheep83" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.822621, 0, -0.568591, 0, 1, 0, 0.568591, 0, 0.822621, -20.0492, 0.0162418, -28.5651)
+
+[node name="Sheep84" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.579195, 0, -0.815189, 0, 1, 0, 0.815189, 0, 0.579195, -17.8707, 0.0162418, -42.431)
+
+[node name="Sheep85" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.14707, -0.000639924, -0.989126, -0.00271607, 0.999996, -0.00105081, 0.989122, 0.00284108, 0.147068, -14.4518, 0.0410205, -46.713)
+
+[node name="Sheep86" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.940383, 0, -0.340117, 0, 1, 0, 0.340117, 0, 0.940383, -11.8158, 0.0162418, -36.0727)
+
+[node name="Sheep87" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.822621, 0, -0.568591, 0, 1, 0, 0.568591, 0, 0.822621, -9.04469, 0.0162418, -39.3592)
+
+[node name="Sheep88" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.822621, 0, -0.568591, 0, 1, 0, 0.568591, 0, 0.822621, -12.0492, 0.0162418, -29.5651)
+
+[node name="Sheep89" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.579195, 0, -0.815189, 0, 1, 0, 0.815189, 0, 0.579195, -9.87066, 0.0162418, -43.431)
+
+[node name="Sheep90" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.14707, -0.000639924, -0.989126, -0.00271607, 0.999996, -0.00105081, 0.989122, 0.00284108, 0.147068, -6.45179, 0.0410205, -47.713)
+
+[node name="Sheep91" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.474721, -0.000639924, -0.880136, -0.00219674, 0.999996, -0.00191195, 0.880134, 0.00284108, 0.474717, 10.994, -0.0666577, -5.87854)
+
+[node name="Sheep92" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.474721, -0.000639924, -0.880136, -0.00219674, 0.999996, -0.00191195, 0.880134, 0.00284108, 0.474717, 32.2561, 0.0321558, -35.8722)
+
+[node name="Sheep93" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.888434, -0.000639924, -0.459003, -0.000735524, 0.999996, -0.00281784, 0.459003, 0.00284108, 0.88843, 14.5156, 0.0997499, -63.6598)
+
+[node name="Sheep94" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.523674, 0, 0.851919, 0, 1, 0, -0.851919, 0, 0.523674, 4.96951, 0.0162494, -37.6989)
+
+[node name="Sheep95" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.523674, 0, 0.851919, 0, 1, 0, -0.851919, 0, 0.523674, 8.16037, 0.0162494, -52.8657)
+
+[node name="Sheep96" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5047, 0.016257, -87.9654)
+
+[node name="Sheep97" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.1996, 0.0162494, -120.918)
+
+[node name="Sheep98" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, 2.60126, 0.0162494, -47.8155)
+
+[node name="Sheep99" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, 18.0428, 0.0162494, -49.1475)
+
+[node name="Sheep100" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, -0.403235, 0.0162494, -38.0213)
+
+[node name="Sheep101" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, 15.0383, 0.0162494, -39.3533)
+
+[node name="Sheep102" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.977728, 0, -0.209875, 0, 1, 0, 0.209875, 0, 0.977728, 32.7341, 0.016257, -78.2467)
+
+[node name="Sheep103" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.977728, 0, -0.209875, 0, 1, 0, 0.209875, 0, 0.977728, 23.708, 0.0162494, -113.887)
+
+[node name="Sheep104" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.821926, 0, -0.569595, 0, 1, 0, 0.569595, 0, 0.821926, 26.3867, 0.016257, -59.8153)
+
+[node name="Sheep105" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.821926, 0, -0.569595, 0, 1, 0, 0.569595, 0, 0.821926, 31.7545, 0.0162494, -96.1869)
+
+[node name="Sheep106" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.999978, 0, -0.00673681, 0, 1, 0, 0.00673681, 0, 0.999978, 3.35071, 0.0162494, -112.923)
+
+[node name="Sheep107" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.474721, -0.000639924, -0.880136, -0.00219674, 0.999996, -0.00191195, 0.880134, 0.00284108, 0.474717, 12.8782, -0.0666577, -41.9231)
+
+[node name="Sheep108" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.523674, 0, 0.851919, 0, 1, 0, -0.851919, 0, 0.523674, 18.7998, 0.0162494, 0.701859)
+
+[node name="Sheep109" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.523674, 0, 0.851919, 0, 1, 0, -0.851919, 0, 0.523674, 21.9906, 0.0162494, -14.465)
+
+[node name="Sheep110" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.335, 0.016257, -49.5647)
+
+[node name="Sheep111" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, 16.4315, 0.0162494, -9.41472)
+
+[node name="Sheep112" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, 31.8731, 0.0162494, -10.7467)
+
+[node name="Sheep113" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, 28.8686, 0.0162494, -0.952576)
+
+[node name="Sheep114" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.977728, 0, -0.209875, 0, 1, 0, 0.209875, 0, 0.977728, 46.5644, 0.016257, -39.8459)
+
+[node name="Sheep115" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.821926, 0, -0.569595, 0, 1, 0, 0.569595, 0, 0.821926, 40.217, 0.016257, -21.4146)
+
+[node name="Sheep116" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.821926, 0, -0.569595, 0, 1, 0, 0.569595, 0, 0.821926, 45.5848, 0.0162494, -57.7862)
+
+[node name="Sheep117" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.474721, -0.000639924, -0.880136, -0.00219674, 0.999996, -0.00191195, 0.880134, 0.00284108, 0.474717, 26.7085, -0.0666577, -3.52231)
+
+[node name="Sheep118" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.474721, -0.000639924, -0.880136, -0.00219674, 0.999996, -0.00191195, 0.880134, 0.00284108, 0.474717, 47.9706, 0.0321558, -33.516)
+
+[node name="Sheep119" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.523674, 0, 0.851919, 0, 1, 0, -0.851919, 0, 0.523674, 20.684, 0.0162494, -35.3427)
+
+[node name="Sheep120" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.523674, 0, 0.851919, 0, 1, 0, -0.851919, 0, 0.523674, 23.8748, 0.0162494, -50.5095)
+
+[node name="Sheep121" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, 18.3157, 0.0162494, -45.4592)
+
+[node name="Sheep122" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, 33.7573, 0.0162494, -46.7912)
+
+[node name="Sheep123" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, 15.3112, 0.0162494, -35.6651)
+
+[node name="Sheep124" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.966966, 0, -0.254906, 0, 1, 0, 0.254906, 0, 0.966966, 30.7528, 0.0162494, -36.9971)
+
+[node name="Sheep125" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.821926, 0, -0.569595, 0, 1, 0, 0.569595, 0, 0.821926, 42.1012, 0.016257, -57.4591)
+
+[node name="Sheep126" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.474721, -0.000639924, -0.880136, -0.00219674, 0.999996, -0.00191195, 0.880134, 0.00284108, 0.474717, 28.5927, -0.0666577, -39.5668)
+
+[node name="Sheep127" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.474721, -0.000639924, -0.880136, -0.00219674, 0.999996, -0.00191195, 0.880134, 0.00284108, 0.474717, 34.1403, 0.0321558, -71.9167)
+
+[node name="Sheep128" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.888434, -0.000639924, -0.459003, -0.000735524, 0.999996, -0.00281784, 0.459003, 0.00284108, 0.88843, 16.3998, 0.0997499, -99.7043)
+
+[node name="Sheep129" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.566706, -0.000639924, 0.82392, 0.00270347, 0.999996, -0.0010828, -0.823916, 0.00284108, 0.566705, -35.6678, 0.1553, -94.5159)
+
+[node name="Sheep130" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(-0.823364, 0.295098, 0.484756, -0.118489, 0.745961, -0.655365, -0.555006, -0.597042, -0.579231, -97.6329, 0.0272758, -63.4113)
+
+[node name="Sheep131" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.839726, -0.000639924, -0.54301, -0.00100536, 0.999996, -0.00273321, 0.54301, 0.00284108, 0.839721, 22.2322, 0.23295, -108.805)
+
+[node name="Sheep132" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.977474, -0.000639924, 0.211055, 0.00122514, 0.999996, -0.00264202, -0.211052, 0.00284108, 0.977471, -21.2922, 0.287645, -137.86)
+
+[node name="Sheep133" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.416198, -0.000639924, 0.909274, 0.00284965, 0.999996, -0.000600576, -0.909269, 0.00284108, 0.416198, -88.8265, 0.0811106, -80.3818)
+
+[node name="Sheep134" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(-0.393666, -0.000639924, -0.919253, -0.00286359, 0.999996, 0.000530174, 0.919249, 0.00284108, -0.393666, 79.5752, 0.0850379, -43.8218)
+
+[node name="Sheep135" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(-0.531351, -0.000639924, -0.847151, -0.00274685, 0.999996, 0.000967489, 0.847147, 0.00284108, -0.531351, 65.4084, -0.112676, 22.578)
+
+[node name="Sheep136" parent="Sheep" instance=ExtResource("9_7emxd")]
+transform = Transform3D(0.928953, -0.000639924, -0.370198, -0.000457291, 0.999996, -0.00287613, 0.370198, 0.00284108, 0.928949, 27.876, 0.434656, -153.75)
+
+[node name="Decoration" type="Node" parent="."]
+
+[node name="Palm_Tree" type="Sprite3D" parent="Decoration"]
+transform = Transform3D(-4.56502, 0, -12.1721, 0, 13, 0, 12.1721, 0, -4.56502, -134.117, 14.7473, -142.844)
+modulate = Color(0.432624, 0.432624, 0.432624, 1)
+billboard = 2
+texture = ExtResource("8_qmajf")
+
+[node name="Palm_Tree2" type="Sprite3D" parent="Decoration"]
+transform = Transform3D(-4.56502, 0, -12.1721, 0, 13, 0, 12.1721, 0, -4.56502, -165.638, 14.7473, -9.74562)
+modulate = Color(0.432624, 0.432624, 0.432624, 1)
+billboard = 2
+texture = ExtResource("8_qmajf")
+
+[node name="Palm_Tree3" type="Sprite3D" parent="Decoration"]
+transform = Transform3D(-4.56502, 0, -12.1721, 0, 13, 0, 12.1721, 0, -4.56502, -62.6081, 14.7473, 85.8451)
+modulate = Color(0.432624, 0.432624, 0.432624, 1)
+billboard = 2
+texture = ExtResource("8_qmajf")
+
+[node name="Palm_Tree4" type="Sprite3D" parent="Decoration"]
+transform = Transform3D(-4.56502, 0, -12.1721, 0, 13, 0, 12.1721, 0, -4.56502, 56.3733, 15.0475, 79.2147)
+modulate = Color(0.432624, 0.432624, 0.432624, 1)
+billboard = 2
+texture = ExtResource("8_qmajf")
+
+[node name="Palm_Tree5" type="Sprite3D" parent="Decoration"]
+transform = Transform3D(-4.56502, 0, -12.1721, 0, 13, 0, 12.1721, 0, -4.56502, 103.803, 15.0475, 66.1178)
+modulate = Color(0.432624, 0.432624, 0.432624, 1)
+billboard = 2
+texture = ExtResource("8_qmajf")
+
+[node name="Palm_Tree6" type="Sprite3D" parent="Decoration"]
+transform = Transform3D(-4.56502, 0, -12.1721, 0, 13, 0, 12.1721, 0, -4.56502, 136.915, 15.0475, -149.507)
+modulate = Color(0.432624, 0.432624, 0.432624, 1)
+billboard = 2
+texture = ExtResource("8_qmajf")
+
+[node name="pyramid" parent="Decoration" instance=ExtResource("7_1p51i")]
+transform = Transform3D(13, 0, 0, 0, 13, 0, 0, 0, 13, -73.7328, 1.93705, -328.777)
+
+[node name="pyramid3" parent="Decoration" instance=ExtResource("7_1p51i")]
+transform = Transform3D(-4.56502, 0, -12.1721, 0, 13, 0, 12.1721, 0, -4.56502, -255.433, 22.643, -131.533)
+
+[node name="pyramid2" parent="Decoration" instance=ExtResource("7_1p51i")]
+transform = Transform3D(4.48275, 0, -3.9881, 0, 6, 0, 3.9881, 0, 4.48275, 47.1684, 1.93705, -253.526)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.262408, 0.964957, 0, -0.964957, -0.262408, -51.9623, 237.537, -160.766)
+shadow_enabled = true
+shadow_bias = 0.01
+shadow_normal_bias = 0.5
+shadow_reverse_cull_face = true
+shadow_blur = 5.0
+sky_mode = 1

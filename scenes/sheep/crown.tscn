@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8tmssbc65jlc"]
+
+[ext_resource type="Script" uid="uid://bev7jp5ag6fr5" path="res://scenes/sheep/crown.gd" id="1_htbfx"]
+[ext_resource type="ArrayMesh" uid="uid://cpegi42iu14xh" path="res://assets/misc/models/crown/crown.res" id="2_xqi77"]
+
+[node name="Crown" type="Node3D"]
+script = ExtResource("1_htbfx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.25, 0, 0, 0, -1.09278e-08, 0.25, 0, -0.25, -1.09278e-08, 0, 0.189, 0)
+mesh = ExtResource("2_xqi77")
+
+[node name="crowns" type="Node" parent="."]

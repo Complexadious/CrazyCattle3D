@@ -6,7 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://d3uvch3e8y0b5" path="res://assets/environment/nyc/sounds/nyc.wav" id="6_4e8ql"]
 [ext_resource type="PackedScene" uid="uid://bc1fshpqvqgqa" path="res://assets/misc/models/fence/fencircular.glb" id="7_rgnm6"]
 [ext_resource type="PackedScene" uid="uid://d8gnmkghjw4y" path="res://scenes/sheep/playernode.tscn" id="8_bhp4x"]
-[ext_resource type="PackedScene" uid="uid://pbvm5mjofbbv" path="res://scenes/environment/nyc/twin_towers.tscn" id="9_4e8ql"]
+[ext_resource type="PackedScene" uid="uid://bu6ix1voe2d7f" path="res://assets/environment/nyc/models/twin_towers/the_world_trade_center.glb" id="9_3ejsy"]
 [ext_resource type="PackedScene" uid="uid://dpyyeub8xtbxw" path="res://assets/environment/nyc/models/boeing_767/boeing_767.glb" id="9_t5s28"]
 [ext_resource type="ArrayMesh" uid="uid://d2wuogbv47vki" path="res://assets/misc/models/spiral/spiral.obj" id="11_3ott5"]
 
@@ -138,9 +138,6 @@ shape = SubResource("ConcavePolygonShape3D_68ebt")
 [node name="plane" parent="Decoration" instance=ExtResource("9_t5s28")]
 transform = Transform3D(0.127143, -0.07959, 0, 0.07959, 0.127143, 0, 0, 0, 0.15, -104.931, 83.0142, -336.821)
 
-[node name="Sketchfab_Scene" parent="Decoration" instance=ExtResource("9_4e8ql")]
-transform = Transform3D(0.0203832, 0, 0.0220119, 0, 0.03, 0, -0.0220119, 0, 0.0203832, -61.72, -56.0966, -26.038)
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Decoration"]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 2.5, 13.0482, -1.01832, 0)
 mesh = ExtResource("11_3ott5")
@@ -155,3 +152,6 @@ shape = SubResource("ConcavePolygonShape3D_1v4v0")
 
 [node name="fencircular" parent="." instance=ExtResource("7_rgnm6")]
 transform = Transform3D(4.15097, 0, 0, 0, 3.49015, 0, 0, 0, 4.15097, -7.90337, 2.39774, -48.269)
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("9_3ejsy")]
+transform = Transform3D(0.0203832, 0, 0.0220119, 0, 0.03, 0, -0.0220119, 0, 0.0203832, -61.72, -56.097, -26.038)

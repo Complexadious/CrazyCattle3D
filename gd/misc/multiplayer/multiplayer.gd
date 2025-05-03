@@ -18,7 +18,7 @@ func _ready():
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
 	# Add yourself
-	_add_player(multiplayer.get_unique_id())
+#	_add_player(multiplayer.get_unique_id())
 
 func _on_peer_connected(id):
 	print("Peer connected: ", id)

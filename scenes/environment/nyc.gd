@@ -1,8 +1,8 @@
 extends Node3D
 func _ready():
 	Global.currentlevel = "new york city"
-	Global.currentlevelfenceradius = 260
-	Global.currentlevelmaxsheep = 60
+	Global.currentlevelfenceradius = 60
+	Global.currentlevelmaxsheep = 120
 	Global.currentlevelminprocessingdist = 60 if Global.enable_physics_culling else 512
 	Global.currentlevelprocessingdist = Global.currentlevelminprocessingdist		
 	Global.onLevelLoad($".")

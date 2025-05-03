@@ -20,8 +20,8 @@ var _last_radius: float          = 0.0  # for the debug sphere
 
 @export var peer_id : int
 
-func _enter_tree() -> void:
-	set_multiplayer_authority(int(peer_id))
+#func _enter_tree() -> void:
+#	set_multiplayer_authority(int(peer_id))
 
 func _log(msg: String, type: String = "INFO") -> void:
 	CC3D.log(msg, type, self)

@@ -1,19 +1,17 @@
-[gd_scene load_steps=20 format=3 uid="uid://k0gfma7jflsk"]
+[gd_scene load_steps=19 format=3 uid="uid://k0gfma7jflsk"]
 
 [ext_resource type="Script" uid="uid://l8r1fo72yvl4" path="res://scenes/environment/nyc.gd" id="1_yi2wc"]
-[ext_resource type="Texture2D" uid="uid://sgdgutyo4wyg" path="res://assets/environment/nyc/textures/portland_landing_pad_4k.exr" id="3_d2too"]
 [ext_resource type="Texture2D" uid="uid://csaymqiq7g8cj" path="res://assets/environment/environment2/textures/crazy_floor.png" id="4_diuja"]
 [ext_resource type="AudioStream" uid="uid://d3uvch3e8y0b5" path="res://assets/environment/nyc/sounds/nyc.wav" id="6_4e8ql"]
 [ext_resource type="PackedScene" uid="uid://bc1fshpqvqgqa" path="res://assets/misc/models/fence/fencircular.glb" id="7_rgnm6"]
 [ext_resource type="PackedScene" uid="uid://d8gnmkghjw4y" path="res://scenes/sheep/playernode.tscn" id="8_bhp4x"]
-[ext_resource type="PackedScene" uid="uid://bu6ix1voe2d7f" path="res://assets/environment/nyc/models/twin_towers/the_world_trade_center.glb" id="9_3ejsy"]
+[ext_resource type="PackedScene" uid="uid://c84ysnkln6o2l" path="res://assets/environment/nyc/models/twin_towers/the_world_trade_center.glb" id="9_3ejsy"]
 [ext_resource type="PackedScene" uid="uid://dpyyeub8xtbxw" path="res://assets/environment/nyc/models/boeing_767/boeing_767.glb" id="9_t5s28"]
 [ext_resource type="ArrayMesh" uid="uid://d2wuogbv47vki" path="res://assets/misc/models/spiral/spiral.obj" id="11_3ott5"]
 
 [sub_resource type="GDScript" id="GDScript_t5s28"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_8nd2r"]
-panorama = ExtResource("3_d2too")
 energy_multiplier = 0.76
 
 [sub_resource type="Sky" id="Sky_wetts"]

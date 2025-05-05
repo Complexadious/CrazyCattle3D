@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnqibaldkqfi2"]
+
+[ext_resource type="Script" uid="uid://dw3an0yk4hg6e" path="res://gd/main.gd" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://1pfcc6k613ed" path="res://unoptimized_assets/environment/level/level_class.gd" id="2_sugp2"]
+
+[node name="main" type="Node3D"]
+script = ExtResource("1_0wfyh")
+
+[node name="Menu" type="Node" parent="."]
+
+[node name="Level" type="Node" parent="."]
+script = ExtResource("2_sugp2")
+metadata/_custom_type_script = "uid://1pfcc6k613ed"
+
+[node name="Map" type="Node" parent="Level"]
+
+[node name="Sheep" type="Node" parent="Level"]

@@ -120,4 +120,6 @@ var sheep_spawn_count = 60
 
 var sheep_spawn_center = Vector3.ZERO
 
+var root = null
+
 #var multi = MultiplayerHandler

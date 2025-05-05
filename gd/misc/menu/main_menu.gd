@@ -1,11 +1,16 @@
-extends Node
+extends Menu
 
-func _log(msg: String, type: String = "INFO") -> void:
-	CC3D.log(msg, type, self)
+func _ready():
+	super()
+	self.internal_name = "main_menu"
+	
+	randomize()
+	initialise_game()
+	loadData()
 
 func initialise_game():
 	if ResourceLoader.exists(Global.save_location) == true:
-		_log("Savefile Exists; Skipping Initialisation")
+		_log("Savefile Exists; Skipping Initialisation", "INFO", "initialise_game")
 	else:
 		var data = SaveData.new()
 		data.savename = "Nardo Polo"
@@ -19,15 +24,14 @@ func initialise_game():
 		data.enable_physics_sphere = false
 		data.debug_rendering = false
 		ResourceSaver.save(data, Global.save_location)
-		_log("Savefile not found; Initialising")
+		_log("Savefile not found; Initialising", "INFO", "initialise_game")
 
 
 
 func loadData():
-
 	var data = ResourceLoader.load(Global.save_location) as SaveData
 	if (data == null):
-		_log("WARNING!! Unable to load save at `"+str(Global.save_location)+"`")
+		_log("WARNING!! Unable to load save at `"+str(Global.save_location)+"`", "INFO", "loadData")
 		return
 	Global.unlockedlevels = data.saveunlockedlevels
 	Global.playername = data.savename
@@ -42,12 +46,7 @@ func loadData():
 	AudioServer.set_bus_volume_db(1, data.musicvol)
 	if data.fullscreen == true:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-	_log("Loaded with name " + Global.playername + " and " + str(Global.unlockedlevels) + " unlocked levels")
-
-func _ready():
-	randomize()
-	initialise_game()
-	loadData()
+	_log("Loaded with name " + Global.playername + " and " + str(Global.unlockedlevels) + " unlocked levels", "INFO", "loadData")
 
 func uiHover():
 	$Uihover.play()
@@ -59,13 +58,14 @@ func uiRelease():
 	$Uirelease.play()
 
 func _on_ng_pressed() -> void :
-	get_tree().change_scene_to_file("res://scenes/menu/worldmap.tscn")
+#	get_tree().change_scene_to_file("res://scenes/menu/worldmap.tscn")
+	CC3D.load_menu("worldmap")
 
 func _on_opt_pressed() -> void :
-	get_tree().change_scene_to_file("res://scenes/menu/options.tscn")
+	CC3D.load_menu("options")
 	
 func _on_mul_pressed() -> void :
-	get_tree().change_scene_to_file("res://scenes/menu/multiplayer.tscn")
+	CC3D.load_menu("multiplayer")
 
 func _on_quit_pressed() -> void :
 	$quit.disabled = true
@@ -102,7 +102,7 @@ func _on_quit_button_up() -> void :
 	uiRelease()
 
 func _on_baa_finished() -> void :
-	get_tree().quit()
+	CC3D.quit()
 
 
 func _on_mul_mouse_entered() -> void:

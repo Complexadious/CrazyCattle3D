@@ -10,6 +10,13 @@ var _type_colors = {
 }
 var _fallback_type_color = "gray"
 
+# Publicly accessible
+@export var path = {}
+@export var level : Node3D = null
+@export var level_internal_name : String = ""
+@export var menu : Node2D = null
+@export var menu_internal_name : String = ""
+
 func _process(_delta):
 	_cached_timestamp = get_timestamp()
 
@@ -31,8 +38,69 @@ func log(msg = "UnsetMessage", type: String = "UnsetType", caller: Node = null, 
 		print_rich("[color=#7d7d7d]["+_cached_timestamp+"] [color=gray]["+caller_name+"[color=#7d7d7d]<[color=#7d7d7d]"+caller_str+"[color=#7d7d7d]>[color=gray]] [color="+_tc+"]["+type+"]: [color=white]"+msg)
 	# [12H:49M:0S:625] [obj_sys/FUNC/web_asset_data_init] [INFO]:
 
+func quit() -> void:
+	_log("Quitting", "INFO", "quit")
+	get_tree().quit()
+
 func _log(msg: String, type: String, function_name: String):
 	CC3D.log(msg, type, self, function_name)
+
+func is_a_level_loaded():
+	return (self.level != null)
+	
+func is_a_menu_loaded():
+	return (self.menu != null)
+
+func reload_level() -> void:
+	var lvl = self.level.internal_name if self.level.internal_name != null else "NO_LEVEL_LOADED"
+	_log("Reloading level '"+str(self.level)+"'", "INFO", "reload_level")
+	if self.level.internal_name != null:
+		load_level(self.level.internal_name)
+		
+func reload_menu() -> void:
+	var lvl = self.menu.internal_name if self.menu.internal_name != null else "NO_MENU_LOADED"
+	_log("Reloading menu '"+str(self.menu)+"'", "INFO", "reload_menu")
+	if self.menu.internal_name != null:
+		load_level(self.menu.internal_name)
+
+func clear_menus() -> void:
+	self.menu = null
+	var menus = Global.root.get_node("Menu").get_children()
+	for menu in menus:
+		menu.queue_free()
+		
+func clear_levels() -> void:
+	self.level = null
+	var levels = Global.root.get_node("Level").get_children()
+	for level in levels:
+		level.queue_free()
+
+func load_level(internal_level_name: String) -> void:
+	_log("Loading level '"+internal_level_name+"'", "INFO", "load_level")
+	clear_menus()
+	clear_levels()
+	var path = "res://scenes/environment/"+internal_level_name+"/"+internal_level_name+".tscn"
+	if !DirAccess.dir_exists_absolute(path):
+		_log("Unable to load non-existent level '"+internal_level_name+"' ("+path+")", "ERROR", "load_level")
+		pass
+	var l = load(path).instantiate()
+	Global.root.get_node("Level").add_child(l)
+	l.internal_name = internal_level_name
+	self.level = l
+
+func load_menu(internal_menu_name: String, clear_level: bool = true) -> void:
+	_log("Loading menu '"+internal_menu_name+"'", "INFO", "load_menu")
+	clear_menus()
+	if clear_level:
+		clear_levels()
+	var path = "res://scenes/menu/"+internal_menu_name+".tscn"
+	if !DirAccess.dir_exists_absolute(path):
+		_log("Unable to load non-existent menu '"+internal_menu_name+"' ("+path+")", "ERROR", "load_level")
+		pass
+	var m = load(path).instantiate()
+	Global.root.get_node("Menu").add_child(m)
+	m.internal_name = internal_menu_name
+	self.menu = m
 
 func spawn_sheep_at(pos: Vector3, rot: Vector3, name_or_num = Global.sheepnum, prefixed_name = name_or_num) -> Node3D:
 	var __log = func(msg, type := "INFO"):

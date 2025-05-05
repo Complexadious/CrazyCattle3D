@@ -1,4 +1,8 @@
-extends Node2D
+extends Menu
+
+func _ready() -> void:
+	super()
+	self.internal_name = "pause"
 
 func resume():
 	get_tree().paused = false
@@ -27,7 +31,7 @@ func _on_restart_pressed() -> void :
 	Global.sheepnum = 0
 	Global.eliminated = ""
 	resume()
-	get_tree().reload_current_scene()
+	CC3D.reload_level()
 
 
 func _on_quit_pressed() -> void :
@@ -36,7 +40,7 @@ func _on_quit_pressed() -> void :
 	Global.global_sheep = 0
 	Global.sheepnum = 0
 	Global.eliminated = ""
-	get_tree().change_scene_to_file("res://scenes/menu/main_menu.tscn")
+	CC3D.load_menu("main_menu")
 
 func _process(delta):
 	testEsc()

@@ -1,7 +1,4 @@
-extends Node2D
-
-func _log(msg, type: String = "INFO") -> void:
-	CC3D.log(msg, type, self)
+extends Menu
 
 func updateTrophies():
 	if Global.beatenlevels >= 1:
@@ -13,12 +10,15 @@ func updateTrophies():
 				$return2.show()
 
 func _ready():
+	super()
+	self.internal_name = "trophyroom"
+	
 	$Panel / AnimationPlayer.play("fadein")
 	updateTrophies()
-	_log(Global.beatenlevels)
+	_log(Global.beatenlevels, "INFO", "_ready")
 func _on_return_pressed() -> void :
 	$Uirelease.play()
-	get_tree().change_scene_to_file("res://scenes/menu/worldmap.tscn")
+	CC3D.load_menu("worldmap")
 func _on_return_button_down() -> void :
 	$Uipress.play()
 func _on_return_mouse_entered() -> void :
@@ -26,4 +26,4 @@ func _on_return_mouse_entered() -> void :
 
 
 func _on_return_2_pressed() -> void :
-	get_tree().change_scene_to_file("res://scenes/menu/credits.tscn")
+	CC3D.load_menu("credits")

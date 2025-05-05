@@ -89,9 +89,9 @@ func _input(event):
 				Global.global_sheep = 0
 				Global.sheepnum = 0
 				Global.eliminated = ""
-				get_tree().reload_current_scene()
+				CC3D.reload_level()
 		elif iswinstate == true:
-			get_tree().change_scene_to_file("res://scenes/menu/worldmap.tscn")
+			CC3D.load_menu("worldmap")
 	if event.is_action_released("horn"):
 		$Bleat.stop()
 	if event.is_action_pressed("debug_win"):
@@ -201,12 +201,12 @@ func refreshPhysicsCulling() -> void:
 		if vehicle.sleeping != is_sleep:
 			vehicle.sleeping = is_sleep
 			vehicle.freeze   = is_sleep          # ▸ Godot-4 hard lock
-			vehicle.set_physics_process(!is_sleep)
+			#vehicle.set_physics_process(!is_sleep)
 		if (!last) && (is_sleep):
 			last = true
 			last_pos_dist = player_pos.distance_to(vehicle.global_position)
-#			vehicle.get_node("sheep").visible = !is_sleep
-#			vehicle.visible = !is_sleep
+		vehicle.visible = !is_sleep
+		vehicle.set_physics_process(!is_sleep)
 
 		# debug colour (creates a material only when debug is ON)
 		if Global.debug_rendering:

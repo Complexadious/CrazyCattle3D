@@ -5,9 +5,9 @@
 [ext_resource type="Script" uid="uid://c6ax1aatog7is" path="res://gd/sheep/num_label.gd" id="3"]
 [ext_resource type="Script" uid="uid://5gf0sit3fwde" path="res://scenes/sheep/crown_mount.gd" id="3_f0x55"]
 [ext_resource type="Script" uid="uid://c4366oumxkkxv" path="res://gd/sheep/detect_dead.gd" id="3_idw84"]
-[ext_resource type="AudioStream" uid="uid://cudi0vlioxdp7" path="res://assets/misc/sounds/explode.mp3" id="4"]
+[ext_resource type="AudioStream" uid="uid://bxkwekngs2no1" path="res://assets/misc/sounds/explode.mp3" id="4"]
 [ext_resource type="Texture2D" uid="uid://h0ju080swc63" path="res://assets/misc/textures/explodesprite/explosion-Sheet.png" id="5"]
-[ext_resource type="AudioStream" uid="uid://bw8dabod042is" path="res://assets/misc/sounds/baa.mp3" id="6"]
+[ext_resource type="AudioStream" uid="uid://dfhu80n6k2cx8" path="res://assets/misc/sounds/baa.mp3" id="6"]
 [ext_resource type="Script" uid="uid://b404dgfmmima7" path="res://gd/sheep/detect_sheep.gd" id="6_cu6n2"]
 
 [sub_resource type="GDScript" id="GDScript_ol8a7"]
@@ -25,6 +25,9 @@ var c = null
 
 @export var peer_id : int
 
+func _log(msg: String, type: String, function_name: String):
+	CC3D.log(msg, type, self, function_name)
+
 func _enter_tree() -> void:
 	set_multiplayer_authority(int(peer_id))
 
@@ -38,6 +41,10 @@ func _ready():
 	newtime()
 	if (dir == 0): dir = -1
 	c.visible = false
+	if Global.enable_physics_culling:
+		$VehicleBody3D.sleeping = false
+		$VehicleBody3D.set_physics_process(false)
+		$VehicleBody3D.visible = false
 
 func _physics_process(_delta):
 	if $VehicleBody3D.sleeping:
@@ -57,7 +64,7 @@ func _physics_process(_delta):
 			if ($VehicleBody3D/detect_sheep.lasttouchedsheepname != null) && ($VehicleBody3D/detect_dead.lasttouchedobject != null):
 				elim_msg = \"Sheep \"+str(lname)+\" was pushed into the \"+str($VehicleBody3D/detect_dead.lasttouchedobject)+\" by \" + str($VehicleBody3D/detect_sheep.lasttouchedsheepname) + \".\"
 			Global.eliminated = elim_msg
-			print(elim_msg)
+			_log(elim_msg, \"INFO\", \"_physics_process\")
 #			Global.eliminated = \"[pulse]Sheep No. \"+str(lnum)+\" has been eliminated by \" + str(murderer) + \".\"
 			$VehicleBody3D/Explode.play()
 			$VehicleBody3D/explosion.play()
@@ -99,21 +106,31 @@ var cright: bool
 var ccleft: bool
 var ccright: bool
 
+var forced_target = null
+var p = null
 var close_dist: int = 10
+
+func _log(msg: String, type: String, function_name: String):
+	CC3D.log(msg, type, self, function_name)
 
 func _ready() -> void:
 	detect = $detect_sight
 	if !Global.debug_rendering:
 		$targetcube.visible = false
+	p = get_parent()
 
 func target_update() -> void:
-	if sleeping:
+	if (p.isdead || sleeping):
 		pass
+	
+	if (!p.isdead && ($sheep/Label3D.text == \"2\")):
+		print(\"i am 2, i will target the player\")
+		forced_target = Global.WorldRef.get_node_or_null(\"Player\")
 	
 	colliding = detect.is_colliding() && (detect.get_collider(0) is VehicleBody3D)
 	closest_sheep = null
 	
-	if colliding:
+	if colliding && forced_target == null:
 		var closest_dist = INF
 		for collider_id in range(detect.get_collision_count()):
 			var collider = detect.get_collider(collider_id)
@@ -124,10 +141,14 @@ func target_update() -> void:
 					closest_sheep = collider
 		tdist = sqrt(closest_dist)
 	else:
-		# point towards closest sheep in the map
+		# point towards closest sheep in the map or target
 		var closest_dist = INF
-		var targets = Global.WorldRef.get_node(\"Sheep\").get_children()
-		targets.append(Global.WorldRef.get_node(\"Player\"))
+		var targets: Array
+		if forced_target:
+			targets = [forced_target]
+		else:
+			targets = Global.WorldRef.get_node(\"Sheep\").get_children()
+			targets.append(Global.WorldRef.get_node(\"Player\"))
 		for sheep in targets:
 			var collider = sheep.get_node_or_null(\"VehicleBody3D\")
 			if (collider != self) && (collider != null):
@@ -506,7 +527,6 @@ doppler_tracking = 2
 
 [node name="detect_sheep" type="ShapeCast3D" parent="VehicleBody3D"]
 transform = Transform3D(-1.34152, 0, -2.47216e-07, 0, 1.27566, 0, 1.17279e-07, 0, -2.82781, 0.00803272, 1.92772, -0.0757913)
-enabled = false
 shape = SubResource("BoxShape3D_mckr2")
 script = ExtResource("6_cu6n2")
 

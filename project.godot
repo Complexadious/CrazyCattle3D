@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="CrazyCattle3D"
-run/main_scene="uid://ckacwciiu6sh4"
+run/main_scene="uid://dnqibaldkqfi2"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="uid://big08kqdoi028"
@@ -24,7 +24,7 @@ boot_splash/minimum_display_time=3000
 Global="*res://gd/global.gd"
 QuickScreenTextType="*res://gd/sheep/QuickScreenText.gd"
 CC3D="*res://gd/cc3d.gd"
-MultiplayerHandler="*res://gd/misc/multiplayer/multiplayer.gd"
+MultiplayerHandler="*res://gd/misc/multiplayer/multiplayer_class.gd"
 
 [display]
 
@@ -106,6 +106,7 @@ join={
 
 [physics]
 
+2d/run_on_separate_thread=true
 3d/run_on_separate_thread=true
 common/physics_ticks_per_second=50
 common/physics_jitter_fix=0.0

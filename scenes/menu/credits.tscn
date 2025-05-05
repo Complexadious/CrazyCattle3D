@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://qvyrou3cwwg4" path="res://gd/misc/menu/credits.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://b81ijn2b48oth" path="res://assets/misc/textures/menu/credits.png" id="2"]
-[ext_resource type="AudioStream" uid="uid://do8nicry0h37" path="res://assets/misc/sounds/credits.mp3" id="3_oh8hr"]
+[ext_resource type="AudioStream" uid="uid://bb10qth1uvilg" path="res://assets/misc/sounds/credits.mp3" id="3_oh8hr"]
 [ext_resource type="FontFile" uid="uid://cvvi6o8v4r7dh" path="res://assets/misc/fonts/ariblk.ttf" id="4"]
-[ext_resource type="AudioStream" uid="uid://b4ysnjsshn364" path="res://assets/misc/sounds/uihover.mp3" id="5_ev03l"]
-[ext_resource type="AudioStream" uid="uid://3e6asid2bfxh" path="res://assets/misc/sounds/uipress.mp3" id="6_6yft3"]
-[ext_resource type="AudioStream" uid="uid://dpme8t701ycho" path="res://assets/misc/sounds/uirelease.mp3" id="7_kfssv"]
+[ext_resource type="AudioStream" uid="uid://dpjaj3xdt5p33" path="res://assets/misc/sounds/uihover.mp3" id="5_ev03l"]
+[ext_resource type="AudioStream" uid="uid://xkjvrora085g" path="res://assets/misc/sounds/uipress.mp3" id="6_6yft3"]
+[ext_resource type="AudioStream" uid="uid://ckex6l02i2wcl" path="res://assets/misc/sounds/uirelease.mp3" id="7_kfssv"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mae5d"]
 
@@ -25,7 +25,7 @@ Panel/styles/panel = SubResource("StyleBoxEmpty_mae5d")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_604bw"]
 
-[node name="Node2D" type="Node2D"]
+[node name="credits" type="Node2D"]
 script = ExtResource("1")
 
 [node name="Credits" type="Sprite2D" parent="."]

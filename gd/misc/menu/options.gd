@@ -1,9 +1,9 @@
-extends Node
-
-func _log(msg: String, type: String = "INFO") -> void:
-	CC3D.log(msg, type, self)
+extends Menu
 
 func _ready():
+	super()
+	self.internal_name = "options"
+	
 	$Name.text = Global.playername
 	var data = ResourceLoader.load(Global.save_location) as SaveData
 	var muVol = data.musicvol
@@ -74,8 +74,8 @@ func _on_save_pressed() -> void :
 	data.debug_rendering = Global.debug_rendering
 	data.enable_sheep_targetting = Global.enable_sheep_targetting
 	ResourceSaver.save(data, Global.save_location)
-	_log("Saved")
-	get_tree().change_scene_to_file("res://scenes/menu/main_menu.tscn")
+	_log("Saved", "INFO", "_on_saved_pressed")
+	CC3D.load_menu("main_menu")
 
 func _on_save_2_pressed() -> void :
 	$Uirelease.play()
@@ -88,7 +88,7 @@ func _on_save_2_pressed() -> void :
 	$Baa.play()
 	ResourceSaver.save(data, Global.save_location)
 
-	_log("Progress Erased.")
+	_log("Progress Erased.", "INFO", "_on_save_2_pressed")
 
 
 func _on_master_drag_ended(value_changed: bool) -> void :

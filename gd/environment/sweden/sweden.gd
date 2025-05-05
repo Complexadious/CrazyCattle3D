@@ -1,17 +1,16 @@
 extends Node3D
 
+@export var internal_name = "sweden"
 var env : Environment
-var fov : int
+var fov : float
 
 func _ready():
 	Global.currentlevel = "sweden"
 	Global.currentlevelfenceradius = 90
 	Global.currentlevelmaxsheep = 320
 	Global.onLevelLoad($".")
-	
 	env = $WorldEnvironment.environment
-	fov = $Player/VehicleBody3D/Camera3D.fov
 		
-func _physics_process(delta: float) -> void:
-	Global.calculateLevelProcessingDist()
+func _process(delta: float) -> void:
+	fov = $Player/VehicleBody3D/Camera3D.fov
 	env.sky_custom_fov = fov

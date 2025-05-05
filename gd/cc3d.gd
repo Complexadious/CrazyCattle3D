@@ -20,10 +20,11 @@ static func get_timestamp() -> String:
 	var s = str(ts["second"]).pad_zeros(2)
 	return "%s:%s:%s" % [h, m, s]
 	
-func log(msg: String = "UnsetMessage", type: String = "UnsetType", caller: Node = null, function_name: String = ""):
+func log(msg = "UnsetMessage", type: String = "UnsetType", caller: Node = null, function_name: String = ""):
 	var caller_name = caller.name if caller != null else "[color=red]UnknownName"
 	var caller_str = str(caller.get_class()) if caller != null else "[color=red]UnknownClass"
 	var _tc = _type_colors[type] if _type_colors.has(type) else _fallback_type_color
+	msg = str(msg)
 	if (function_name != ""):
 		print_rich("[color=#7d7d7d]["+_cached_timestamp+"] [color=gray]["+caller_name+"[color=#7d7d7d]<[color=#7d7d7d]"+caller_str+"[color=#7d7d7d]>[color=#b5b5b5]/FUNC/"+function_name+"[color=gray]] [color="+_tc+"]["+type+"]: [color=white]"+msg)
 	else:

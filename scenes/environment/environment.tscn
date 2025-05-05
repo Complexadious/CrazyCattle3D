@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://ds7i33h4tbjor"]
 
 [ext_resource type="PackedScene" uid="uid://d8gnmkghjw4y" path="res://scenes/sheep/playernode.tscn" id="1_s0v2d"]
-[ext_resource type="Texture2D" uid="uid://cy88tnl4bbvmt" path="res://assets/misc/textures/sheep_generated-image-348261704.jpg" id="2_58tnn"]
-[ext_resource type="Texture2D" uid="uid://b8e7p8gybl8ty" path="res://assets/misc/textures/games.jpg" id="3_6uwxm"]
+[ext_resource type="Texture2D" uid="uid://cy88tnl4bbvmt" path="res://unoptimized_assets/misc/textures/sheep_generated-image-348261704.jpg" id="2_58tnn"]
+[ext_resource type="Texture2D" uid="uid://b8e7p8gybl8ty" path="res://unoptimized_assets/misc/textures/games.jpg" id="3_6uwxm"]
 [ext_resource type="PackedScene" uid="uid://bfllceqgmkr8f" path="res://scenes/sheep/characternode.tscn" id="4_8nd6w"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7b2gm"]

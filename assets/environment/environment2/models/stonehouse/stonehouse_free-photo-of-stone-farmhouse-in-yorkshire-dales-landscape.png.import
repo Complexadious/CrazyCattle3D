@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bil7nkceaw6lw"
+uid="uid://df6c1edycembg"
 path.s3tc="res://.godot/imported/stonehouse_free-photo-of-stone-farmhouse-in-yorkshire-dales-landscape.png-2455b7cb8a3da4c4dbb5efc163bddd03.s3tc.ctex"
 path.etc2="res://.godot/imported/stonehouse_free-photo-of-stone-farmhouse-in-yorkshire-dales-landscape.png-2455b7cb8a3da4c4dbb5efc163bddd03.etc2.ctex"
 metadata={
@@ -10,7 +10,7 @@ metadata={
 "vram_texture": true
 }
 generator_parameters={
-"md5": "c1ee97ef3f30c5cea3f5815ee70bd833"
+"md5": "69c4d15c2e9c51c865a8a4484fec38b2"
 }
 
 [deps]

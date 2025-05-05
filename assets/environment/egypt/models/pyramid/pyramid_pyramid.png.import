@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwwfmc575pqki"
+uid="uid://c8fatrpjmxqjr"
 path.s3tc="res://.godot/imported/pyramid_pyramid.png-533b7e92b02e8f41df93c88637b97514.s3tc.ctex"
 path.etc2="res://.godot/imported/pyramid_pyramid.png-533b7e92b02e8f41df93c88637b97514.etc2.ctex"
 metadata={
@@ -10,7 +10,7 @@ metadata={
 "vram_texture": true
 }
 generator_parameters={
-"md5": "99466070dd0afc8542c2951d521ca48c"
+"md5": "174cc05c9507bfbfe6cfc04306926819"
 }
 
 [deps]

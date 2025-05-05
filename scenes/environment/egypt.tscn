@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d8gnmkghjw4y" path="res://scenes/sheep/playernode.tscn" id="4_kmrs5"]
 [ext_resource type="PackedScene" uid="uid://bc1fshpqvqgqa" path="res://unoptimized_assets/misc/models/fence/fencircular.glb" id="5_i7j2w"]
 [ext_resource type="AudioStream" uid="uid://b7encieg0m271" path="res://assets/environment/egypt/sounds/world2.mp3" id="6_pnl7o"]
-[ext_resource type="PackedScene" uid="uid://c5yy5gx6p7nr6" path="res://unoptimized_assets/environment/egypt/models/pyramid/pyramid.glb" id="7_1p51i"]
+[ext_resource type="PackedScene" uid="uid://bpne2tfsx3agn" path="res://assets/environment/egypt/models/pyramid/pyramid.glb" id="7_1p51i"]
 [ext_resource type="Texture2D" uid="uid://bgby244m6r4qs" path="res://unoptimized_assets/environment/egypt/textures/palmtree.png" id="8_qmajf"]
 [ext_resource type="PackedScene" uid="uid://bfllceqgmkr8f" path="res://scenes/sheep/characternode.tscn" id="9_7emxd"]
 
@@ -521,7 +521,7 @@ texture = ExtResource("8_qmajf")
 transform = Transform3D(13, 0, 0, 0, 13, 0, 0, 0, 13, -73.7328, 1.93705, -328.777)
 
 [node name="pyramid3" parent="Decoration" instance=ExtResource("7_1p51i")]
-transform = Transform3D(-4.56502, 0, -12.1721, 0, 13, 0, 12.1721, 0, -4.56502, -255.433, 22.643, -131.533)
+transform = Transform3D(-4.56502, 0, -12.1721, 0, 13, 0, 12.1721, 0, -4.56502, -255.393, 22.643, -131.496)
 
 [node name="pyramid2" parent="Decoration" instance=ExtResource("7_1p51i")]
 transform = Transform3D(4.48275, 0, -3.9881, 0, 6, 0, 3.9881, 0, 4.48275, 47.1684, 1.93705, -253.526)

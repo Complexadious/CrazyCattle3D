@@ -13,9 +13,9 @@ func initialise_game():
 		data.mastervol = 0
 		data.musicvol = 0
 		data.beatenlevels = 0
-		data.lighting = true
+		data.lighting = false
 		data.physics_cull = true
-		data.physics_cull_amt = 1.0
+		data.physics_cull_amt = 60.0
 		data.enable_physics_sphere = false
 		data.debug_rendering = false
 		ResourceSaver.save(data, Global.save_location)

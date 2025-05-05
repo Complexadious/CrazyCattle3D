@@ -1,6 +1,6 @@
 extends Node2D
 
-func _log(msg: String, type: String = "INFO") -> void:
+func _log(msg, type: String = "INFO") -> void:
 	CC3D.log(msg, type, self)
 
 func updateTrophies():

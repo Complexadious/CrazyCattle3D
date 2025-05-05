@@ -1,17 +1,18 @@
 [gd_scene load_steps=19 format=3 uid="uid://k0gfma7jflsk"]
 
 [ext_resource type="Script" uid="uid://l8r1fo72yvl4" path="res://scenes/environment/nyc.gd" id="1_yi2wc"]
+[ext_resource type="Texture2D" uid="uid://d1kakpbxvsnun" path="res://assets/environment/nyc/textures/portland_landing_pad_2k.hdr" id="2_3ejsy"]
+[ext_resource type="AudioStream" uid="uid://bn4f7kp47voxv" path="res://assets/environment/nyc/sounds/nyc.mp3" id="3_d2too"]
 [ext_resource type="Texture2D" uid="uid://csaymqiq7g8cj" path="res://assets/environment/environment2/textures/crazy_floor.png" id="4_diuja"]
-[ext_resource type="AudioStream" uid="uid://d3uvch3e8y0b5" path="res://assets/environment/nyc/sounds/nyc.wav" id="6_4e8ql"]
 [ext_resource type="PackedScene" uid="uid://bc1fshpqvqgqa" path="res://assets/misc/models/fence/fencircular.glb" id="7_rgnm6"]
 [ext_resource type="PackedScene" uid="uid://d8gnmkghjw4y" path="res://scenes/sheep/playernode.tscn" id="8_bhp4x"]
 [ext_resource type="PackedScene" uid="uid://c84ysnkln6o2l" path="res://assets/environment/nyc/models/twin_towers/the_world_trade_center.glb" id="9_3ejsy"]
-[ext_resource type="PackedScene" uid="uid://dpyyeub8xtbxw" path="res://assets/environment/nyc/models/boeing_767/boeing_767.glb" id="9_t5s28"]
 [ext_resource type="ArrayMesh" uid="uid://d2wuogbv47vki" path="res://assets/misc/models/spiral/spiral.obj" id="11_3ott5"]
 
 [sub_resource type="GDScript" id="GDScript_t5s28"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_8nd2r"]
+panorama = ExtResource("2_3ejsy")
 energy_multiplier = 0.76
 
 [sub_resource type="Sky" id="Sky_wetts"]
@@ -82,7 +83,7 @@ script = SubResource("GDScript_t5s28")
 environment = SubResource("Environment_eujgh")
 
 [node name="World1" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_4e8ql")
+stream = ExtResource("3_d2too")
 volume_db = -16.0
 autoplay = true
 bus = &"Music"
@@ -93,7 +94,7 @@ custom_aabb = AABB(0, 0, 0, 10, 10, 10)
 multimesh = SubResource("MultiMesh_pn6qc")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.962909, 0.174173, -0.206084, 0.0572191, 0.614586, 0.786772, 0.263691, -0.769382, 0.581824, -315.577, 829.35, 531.364)
+transform = Transform3D(0.681099, 0.552162, -0.480854, 0.0572191, 0.614586, 0.786772, 0.729952, -0.563384, 0.387, -3099.85, 4048.86, 3400.48)
 shadow_enabled = true
 shadow_bias = 0.01
 shadow_normal_bias = 0.5
@@ -132,9 +133,6 @@ mesh = SubResource("PrismMesh_ofbn6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Decoration/shitramp/shitramp/ramp"]
 shape = SubResource("ConcavePolygonShape3D_68ebt")
-
-[node name="plane" parent="Decoration" instance=ExtResource("9_t5s28")]
-transform = Transform3D(0.127143, -0.07959, 0, 0.07959, 0.127143, 0, 0, 0, 0.15, -104.931, 83.0142, -336.821)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Decoration"]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 2.5, 13.0482, -1.01832, 0)

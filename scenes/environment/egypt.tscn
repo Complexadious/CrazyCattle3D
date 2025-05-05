@@ -1,13 +1,13 @@
 [gd_scene load_steps=14 format=3 uid="uid://dwa0bvxbkhi26"]
 
 [ext_resource type="Script" uid="uid://bmsi4f36mfknl" path="res://gd/environment/egypt/egypt.gd" id="1_pnl7o"]
-[ext_resource type="Texture2D" uid="uid://c2ft3k35qc07v" path="res://assets/environment/egypt/textures/egypt3.png" id="2_kiubs"]
-[ext_resource type="Texture2D" uid="uid://de0i0253ave7d" path="res://assets/environment/egypt/textures/redsand.png" id="3_dgf8q"]
+[ext_resource type="Texture2D" uid="uid://c2ft3k35qc07v" path="res://unoptimized_assets/environment/egypt/textures/egypt3.png" id="2_kiubs"]
+[ext_resource type="Texture2D" uid="uid://de0i0253ave7d" path="res://unoptimized_assets/environment/egypt/textures/redsand.png" id="3_dgf8q"]
 [ext_resource type="PackedScene" uid="uid://d8gnmkghjw4y" path="res://scenes/sheep/playernode.tscn" id="4_kmrs5"]
-[ext_resource type="PackedScene" uid="uid://bc1fshpqvqgqa" path="res://assets/misc/models/fence/fencircular.glb" id="5_i7j2w"]
-[ext_resource type="AudioStream" uid="uid://crsw0s6s6exhm" path="res://assets/environment/egypt/sounds/world2.wav" id="6_vqxt6"]
-[ext_resource type="PackedScene" uid="uid://c5yy5gx6p7nr6" path="res://assets/environment/egypt/models/pyramid/pyramid.glb" id="7_1p51i"]
-[ext_resource type="Texture2D" uid="uid://bgby244m6r4qs" path="res://assets/environment/egypt/textures/palmtree.png" id="8_qmajf"]
+[ext_resource type="PackedScene" uid="uid://bc1fshpqvqgqa" path="res://unoptimized_assets/misc/models/fence/fencircular.glb" id="5_i7j2w"]
+[ext_resource type="AudioStream" uid="uid://b7encieg0m271" path="res://assets/environment/egypt/sounds/world2.mp3" id="6_pnl7o"]
+[ext_resource type="PackedScene" uid="uid://c5yy5gx6p7nr6" path="res://unoptimized_assets/environment/egypt/models/pyramid/pyramid.glb" id="7_1p51i"]
+[ext_resource type="Texture2D" uid="uid://bgby244m6r4qs" path="res://unoptimized_assets/environment/egypt/textures/palmtree.png" id="8_qmajf"]
 [ext_resource type="PackedScene" uid="uid://bfllceqgmkr8f" path="res://scenes/sheep/characternode.tscn" id="9_7emxd"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7b2gm"]
@@ -64,7 +64,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.1371, 0.529594, -8.19333)
 transform = Transform3D(4.15097, 0, 0, 0, 3.49015, 0, 0, 0, 4.15097, -8.26722, 2.39774, -48.6839)
 
 [node name="World2" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_vqxt6")
+stream = ExtResource("6_pnl7o")
 volume_db = -16.0
 autoplay = true
 bus = &"Music"

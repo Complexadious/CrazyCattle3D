@@ -2,15 +2,12 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dv6x6ci1f5tpj"
+uid="uid://dduivjoylaf1j"
 path.s3tc="res://.godot/imported/the_world_trade_center_32.jpg-83291db56347b8e0a0d00de3c712875a.s3tc.ctex"
 path.etc2="res://.godot/imported/the_world_trade_center_32.jpg-83291db56347b8e0a0d00de3c712875a.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "5c69b79fe10fce248d367dce5d72a9ef"
 }
 
 [deps]
@@ -29,7 +26,7 @@ compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=1
-roughness/src_normal="res://assets/misc/models/twin_towers/the_world_trade_center_32.jpg"
+roughness/src_normal="res://unoptimized_assets/environment/nyc/models/twin_towers_unoptimized/the_world_trade_center_32.jpg"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

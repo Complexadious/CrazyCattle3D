@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dho2trl5qp88y"]
-
-[ext_resource type="PackedScene" uid="uid://dpyyeub8xtbxw" path="res://assets/environment/nyc/models/boeing_767/boeing_767.glb" id="1_44eyg"]
-
-[node name="Sketchfab_Scene" instance=ExtResource("1_44eyg")]

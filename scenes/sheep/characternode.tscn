@@ -1,13 +1,13 @@
-[gd_scene load_steps=34 format=3 uid="uid://bfllceqgmkr8f"]
+[gd_scene load_steps=37 format=3 uid="uid://bfllceqgmkr8f"]
 
 [ext_resource type="PackedScene" uid="uid://vowcqkf1j21j" path="res://assets/misc/models/sheep/sheep.glb" id="1"]
 [ext_resource type="PackedScene" uid="uid://b8tmssbc65jlc" path="res://scenes/sheep/crown.tscn" id="2_wyywi"]
 [ext_resource type="Script" uid="uid://c6ax1aatog7is" path="res://gd/sheep/num_label.gd" id="3"]
 [ext_resource type="Script" uid="uid://5gf0sit3fwde" path="res://scenes/sheep/crown_mount.gd" id="3_f0x55"]
 [ext_resource type="Script" uid="uid://c4366oumxkkxv" path="res://gd/sheep/detect_dead.gd" id="3_idw84"]
-[ext_resource type="AudioStream" uid="uid://cw2w314pg1hqh" path="res://assets/misc/sounds/explode.wav" id="4"]
+[ext_resource type="AudioStream" uid="uid://cudi0vlioxdp7" path="res://assets/misc/sounds/explode.mp3" id="4"]
 [ext_resource type="Texture2D" uid="uid://h0ju080swc63" path="res://assets/misc/textures/explodesprite/explosion-Sheet.png" id="5"]
-[ext_resource type="AudioStream" uid="uid://dvtte0lvio6u0" path="res://assets/misc/sounds/baa.wav" id="6"]
+[ext_resource type="AudioStream" uid="uid://bw8dabod042is" path="res://assets/misc/sounds/baa.mp3" id="6"]
 [ext_resource type="Script" uid="uid://b404dgfmmima7" path="res://gd/sheep/detect_sheep.gd" id="6_cu6n2"]
 
 [sub_resource type="GDScript" id="GDScript_ol8a7"]
@@ -81,32 +81,133 @@ func _on_timer_timeout() -> void:
 resource_name = "npcscript"
 script/source = "extends VehicleBody3D
 
+var ang: float
+var colliding: bool
+var closest_sheep: VehicleBody3D = null
+var tdist: float
+var detect: ShapeCast3D
+
+var current_rot_y: float = 0.0
+var desired_rot_y: float = 0.0
+var lerp_intensity: float = 0.0
+
+var charge: bool
+var left: bool
+var right: bool
+var cleft: bool
+var cright: bool
+var ccleft: bool
+var ccright: bool
+
+var close_dist: int = 10
+
+func _ready() -> void:
+	detect = $detect_sight
+
+func target_update() -> void:
+	if sleeping:
+		pass
+	
+	colliding = detect.is_colliding() && (detect.get_collider(0) is VehicleBody3D)
+	closest_sheep = null
+	
+	if colliding:
+		var closest_dist = INF
+		for collider_id in range(detect.get_collision_count()):
+			var collider = detect.get_collider(collider_id)
+			if (collider != self) && ((collider is VehicleBody3D)):
+				var dist = global_position.distance_squared_to(collider.global_position)
+				if (dist < closest_dist):
+					closest_dist = dist
+					closest_sheep = collider
+		tdist = sqrt(closest_dist)
+	else:
+		# point towards closest sheep in the map
+		var closest_dist = INF
+		var targets = Global.WorldRef.get_node(\"Sheep\").get_children()
+		targets.append(Global.WorldRef.get_node(\"Player\"))
+		for sheep in targets:
+			var collider = sheep.get_node_or_null(\"VehicleBody3D\")
+			if (collider != self) && (collider != null):
+				var dist = global_position.distance_squared_to(collider.global_position)
+				if (dist < closest_dist):
+					closest_dist = dist
+					closest_sheep = collider
+		tdist = sqrt(closest_dist)
+
 func _physics_process(delta):
 	var t = Global.enable_sheep_targetting
-	var tpos = Global.sheep_target_position
+	# tdist = target distance from current pos (at most pos from timerdur sec ago, very close)
 	var pos = global_position
-	var ang = 0.0
-	var lim = 10
+	var lim = 15
 
-	if t:
-		ang = rad_to_deg(atan2(tpos.x - pos.x, tpos.z - pos.z))  # Use x/z, not x/y
-	var ang2 = global_rotation.y - ang
-	
-	var left = $detect_left.is_colliding() if !t else false #(((360 - lim) > ang2) && (ang2 > 180))   # Add small margin
-	var right = $detect_right.is_colliding() if !t else false #((lim < ang2) && (ang2 < 180))
-	var charge = $detect_ahead.is_colliding() if !t else false #(((360 - lim) < ang2) && (ang2 < lim))
-	var cright = $detect_cright.is_colliding() if !t else false #((355 > ang2) && (ang2 > 180))
-	var cleft = $detect_cleft.is_colliding() if !t else false #((lim < ang2) && (ang2 < 180))
+	current_rot_y = global_rotation.y
+
+	if closest_sheep:
+		var tpos = closest_sheep.global_position
+		var to_target = (tpos - global_position).normalized()
+		var forward = -global_transform.basis.z.normalized()
+		var angle_rad = forward.signed_angle_to(to_target, Vector3.UP)
+		var ang_deg = rad_to_deg(angle_rad)
+
+		# Smooth turning using global Y rotation
+		desired_rot_y = atan2(to_target.x, to_target.z)  # This is the global angle to face the target
+
+		# Interpolate rotation towards the desired one
+		lerp_intensity = randi_range(500, 250)
+
+		# Target cube position (debug visual)
+		var cube = $targetcube
+		cube.global_position = tpos
+
+		# Turning flags if needed (optional logic for force/steering)
+		var tdist = global_position.distance_to(tpos)
+		var close_dist = 10
+
+		if abs(ang_deg) < lim:
+			charge = true
+			
+			ccright = false
+			cright = false
+			right = false
+			
+			ccleft = false
+			cleft = false
+			left = false
+		elif ang_deg > lim:
+			ccright = (tdist < (close_dist / 2))
+			cright = (tdist < close_dist)
+			right = true
+			
+			ccleft = false
+			cleft = false
+			left = false
+		elif ang_deg < -lim:
+			ccleft = (tdist < (close_dist / 2))
+			cleft = (tdist < close_dist)
+			left = true
+			
+			ccright = false
+			cright = false
+			right = false
+			
+		if (ccright || ccleft):
+			lerp_intensity = randi_range(100, 50)
+		
+		global_rotation.y = lerp_angle(global_rotation.y, desired_rot_y, tdist  / lerp_intensity)
 
 	steering = 0
 	engine_force = 100
-	
-	if (has_node(\"sheep\")) && (t):
-		global_rotation = Vector3(global_rotation.x, lerp(global_rotation.y, deg_to_rad(ang), 0.05), global_rotation.z)
 
 	if charge:
 		steering = 0
 		engine_force = 200
+	elif ccleft:
+		steering = 9
+		engine_force = 300
+	elif ccright:
+		steering = 9
+		engine_force = 300
 	elif cleft:
 		steering = 9
 		engine_force = 300
@@ -125,12 +226,18 @@ func _physics_process(delta):
 
 func _on_tree_entered() -> void:
 	pass # Replace with function body.
+
+func _on_target_timer_timeout() -> void:
+	target_update()
+
+func _on_rotation_lerp_timeout() -> void:
+	pass
 "
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_82ayb"]
 size = Vector3(1, 0.42281, 1.71842)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_q5qcx"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_wyywi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mckr2"]
 atlas = ExtResource("5")
@@ -267,6 +374,12 @@ animations = [{
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mckr2"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_p23d2"]
+
+[sub_resource type="GDScript" id="GDScript_wyywi"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_wyywi"]
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wyywi"]
 properties/0/path = NodePath("VehicleBody3D:position")
 properties/0/spawn = true
@@ -362,34 +475,10 @@ suspension_max_force = 60000.0
 damping_compression = 1.9
 damping_relaxation = 2.0
 
-[node name="detect_ground" type="ShapeCast3D" parent="VehicleBody3D"]
-transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 2, 0.00784168, 0.0692422, -0.410449)
-shape = SubResource("BoxShape3D_q5qcx")
-
-[node name="detect_right" type="ShapeCast3D" parent="VehicleBody3D"]
-transform = Transform3D(13.8499, 0, 0, 0, 1, 0, 0, 0, 25.6991, -7.68799, 1.56138, 1.81173)
-shape = SubResource("BoxShape3D_q5qcx")
-
 [node name="detect_dead" type="ShapeCast3D" parent="VehicleBody3D"]
-transform = Transform3D(0.95, 0, 0, 0, 0.22, 0, 0, 0, 2.742, 0.003, 1.44, -0.126)
-shape = SubResource("BoxShape3D_q5qcx")
+transform = Transform3D(0.95, 0, 0, 0, 0.22, 0, 0, 0, 2.742, 0.003, 1.44, -0.00270939)
+shape = SubResource("BoxShape3D_wyywi")
 script = ExtResource("3_idw84")
-
-[node name="detect_left" type="ShapeCast3D" parent="VehicleBody3D"]
-transform = Transform3D(13.1936, 0, 0, 0, 1, 0, 0, 0, 26.1366, 8.32714, 1.58465, 2.41082)
-shape = SubResource("BoxShape3D_q5qcx")
-
-[node name="detect_cright" type="ShapeCast3D" parent="VehicleBody3D"]
-transform = Transform3D(6.65429, 0, 0, 0, 0.928875, 0, 0, 0, 8.49948, -3.52772, 1.56221, -0.0492039)
-shape = SubResource("BoxShape3D_q5qcx")
-
-[node name="detect_cleft" type="ShapeCast3D" parent="VehicleBody3D"]
-transform = Transform3D(6.33897, 0, 0, 0, 0.928875, 0, 0, 0, 8.64417, 4.16687, 1.58382, 0.148933)
-shape = SubResource("BoxShape3D_q5qcx")
-
-[node name="detect_ahead" type="ShapeCast3D" parent="VehicleBody3D"]
-transform = Transform3D(1.38554, 0, 0, 0, 1, 0, 0, 0, 40.2172, 0.229289, 1.58465, 24.7895)
-shape = SubResource("BoxShape3D_q5qcx")
 
 [node name="Explode" type="AudioStreamPlayer3D" parent="VehicleBody3D"]
 stream = ExtResource("4")
@@ -414,10 +503,20 @@ doppler_tracking = 2
 
 [node name="detect_sheep" type="ShapeCast3D" parent="VehicleBody3D"]
 transform = Transform3D(-1.34152, 0, -2.47216e-07, 0, 1.27566, 0, 1.17279e-07, 0, -2.82781, 0.00803272, 1.92772, -0.0757913)
+enabled = false
 shape = SubResource("BoxShape3D_mckr2")
 script = ExtResource("6_cu6n2")
 
 [node name="Node3D" type="Node3D" parent="VehicleBody3D"]
+
+[node name="detect_sight" type="ShapeCast3D" parent="VehicleBody3D"]
+transform = Transform3D(30.4092, 0, 0, 0, 1, 0, 0, 0, 26.9969, 0, 1.39902, 2.17215)
+shape = SubResource("BoxShape3D_p23d2")
+script = SubResource("GDScript_wyywi")
+
+[node name="targetcube" type="MeshInstance3D" parent="VehicleBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05811, 0.704883, 0)
+mesh = SubResource("BoxMesh_wyywi")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
@@ -426,4 +525,14 @@ autostart = true
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_wyywi")
 
+[node name="TargetTimer" type="Timer" parent="."]
+wait_time = 0.75
+autostart = true
+
+[node name="RotationLerp" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="TargetTimer" to="VehicleBody3D" method="_on_target_timer_timeout"]
+[connection signal="timeout" from="RotationLerp" to="VehicleBody3D" method="_on_rotation_lerp_timeout"]

@@ -107,9 +107,8 @@ join={
 [physics]
 
 3d/run_on_separate_thread=true
-common/physics_ticks_per_second=45
-common/max_physics_steps_per_frame=12
-common/physics_jitter_fix=1.0
+common/physics_ticks_per_second=50
+common/physics_jitter_fix=0.0
 3d/physics_engine="Jolt Physics"
 common/physics_interpolation=true
 

@@ -1,16 +1,17 @@
 extends Node3D
+
+var env : Environment
+var fov : int
+
 func _ready():
 	Global.currentlevel = "sweden"
-	Global.currentlevelfenceradius = 260
-	Global.currentlevelmaxsheep = 60
-	Global.currentlevelminprocessingdist = 60 if Global.enable_physics_culling else 512
-	Global.currentlevelprocessingdist = Global.currentlevelminprocessingdist
-
+	Global.currentlevelfenceradius = 90
+	Global.currentlevelmaxsheep = 320
 	Global.onLevelLoad($".")
+	
+	env = $WorldEnvironment.environment
+	fov = $Player/VehicleBody3D/Camera3D.fov
 		
 func _physics_process(delta: float) -> void:
 	Global.calculateLevelProcessingDist()
-	#fov fix
-	var env = $WorldEnvironment.environment
-	var fov = $Player/VehicleBody3D/Camera3D.fov
 	env.sky_custom_fov = fov

@@ -2,13 +2,10 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csobihs48ooy4"
+uid="uid://1vj0156s6pky"
 path="res://.godot/imported/the_world_trade_center_21.png-719f06e8f60aaafc41d89bea7de4981a.ctex"
 metadata={
 "vram_texture": false
-}
-generator_parameters={
-"md5": "8d44e61fbf384dd0bd7c5d51d4fa2d51"
 }
 
 [deps]
@@ -24,7 +21,7 @@ compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

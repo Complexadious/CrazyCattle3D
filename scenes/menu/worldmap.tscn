@@ -1,12 +1,12 @@
 [gd_scene load_steps=11 format=3 uid="uid://cb6vh3470sj4i"]
 
 [ext_resource type="Script" uid="uid://dg87q5igwda16" path="res://gd/misc/menu/worldmap.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://qjg4gx2nqeh0" path="res://unoptimized_assets/misc/textures/menu/worldmap.png" id="2"]
-[ext_resource type="FontFile" uid="uid://cvvi6o8v4r7dh" path="res://unoptimized_assets/misc/fonts/ariblk.ttf" id="3"]
+[ext_resource type="Texture2D" uid="uid://qjg4gx2nqeh0" path="res://assets/misc/textures/menu/worldmap.png" id="2"]
+[ext_resource type="FontFile" uid="uid://cvvi6o8v4r7dh" path="res://assets/misc/fonts/ariblk.ttf" id="3"]
 [ext_resource type="AudioStream" uid="uid://b4ysnjsshn364" path="res://assets/misc/sounds/uihover.mp3" id="4_30vdn"]
 [ext_resource type="AudioStream" uid="uid://3e6asid2bfxh" path="res://assets/misc/sounds/uipress.mp3" id="5_5awyq"]
 [ext_resource type="AudioStream" uid="uid://dpme8t701ycho" path="res://assets/misc/sounds/uirelease.mp3" id="6_hhd2k"]
-[ext_resource type="Texture2D" uid="uid://ciby07ecbmnm2" path="res://unoptimized_assets/misc/textures/menu/yes.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://ciby07ecbmnm2" path="res://assets/misc/textures/menu/yes.png" id="7"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2e73p"]
 

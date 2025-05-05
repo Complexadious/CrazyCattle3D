@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://chi0wro6852wf" path="res://gd/sheep/vehicle_body_3d.gd" id="1"]
 [ext_resource type="Script" uid="uid://banxly3nima0g" path="res://scenes/sheep/playernode.gd" id="1_13bao"]
 [ext_resource type="PackedScene" uid="uid://bsqs54jqh5rv2" path="res://scenes/sheep/freecam.tscn" id="2"]
-[ext_resource type="AudioStream" uid="uid://h2aydpeoumrq" path="res://assets/misc/sounds/crowd.wav" id="3"]
-[ext_resource type="AudioStream" uid="uid://cw2w314pg1hqh" path="res://assets/misc/sounds/explode.wav" id="4"]
+[ext_resource type="AudioStream" uid="uid://dmx6cjv5w8qki" path="res://assets/misc/sounds/crowd.mp3" id="3"]
+[ext_resource type="AudioStream" uid="uid://cudi0vlioxdp7" path="res://assets/misc/sounds/explode.mp3" id="4"]
 [ext_resource type="Texture2D" uid="uid://h0ju080swc63" path="res://assets/misc/textures/explodesprite/explosion-Sheet.png" id="5"]
 [ext_resource type="PackedScene" uid="uid://vowcqkf1j21j" path="res://assets/misc/models/sheep/sheep.glb" id="6"]
 [ext_resource type="FontFile" uid="uid://dbj10iq6j0ahu" path="res://assets/misc/fonts/IMPACT.TTF" id="7"]
@@ -16,7 +16,7 @@
 [ext_resource type="Script" uid="uid://c4366oumxkkxv" path="res://gd/sheep/detect_dead.gd" id="9_3msp5"]
 [ext_resource type="Script" uid="uid://5gf0sit3fwde" path="res://scenes/sheep/crown_mount.gd" id="9_13bao"]
 [ext_resource type="Script" uid="uid://da6y6xifbmdpa" path="res://gd/misc/menu/eliminated.gd" id="10"]
-[ext_resource type="AudioStream" uid="uid://dvtte0lvio6u0" path="res://assets/misc/sounds/baa.wav" id="11"]
+[ext_resource type="AudioStream" uid="uid://bw8dabod042is" path="res://assets/misc/sounds/baa.mp3" id="11"]
 [ext_resource type="Script" uid="uid://bmdnyd7onlj4m" path="res://gd/sheep/close_call_text.gd" id="11_d13o4"]
 [ext_resource type="PackedScene" uid="uid://em7larvq8lrm" path="res://scenes/menu/pause.tscn" id="12"]
 [ext_resource type="Script" uid="uid://lu0vlkmgj6rg" path="res://gd/sheep/phys_cull_sphere.gd" id="17_h4534"]
@@ -302,6 +302,7 @@ damping_relaxation = 2.0
 
 [node name="detect_ground" type="ShapeCast3D" parent="VehicleBody3D"]
 transform = Transform3D(-1, 0, -1.74846e-07, 0, 0.5, 0, 8.74228e-08, 0, -2, 0.00803271, 0.0584974, -0.319598)
+enabled = false
 shape = SubResource("BoxShape3D_kqhro")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="VehicleBody3D/detect_ground"]

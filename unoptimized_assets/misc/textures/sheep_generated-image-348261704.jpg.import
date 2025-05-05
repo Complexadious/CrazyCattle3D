@@ -2,15 +2,12 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cy88tnl4bbvmt"
+uid="uid://deft5isbw50c"
 path.s3tc="res://.godot/imported/sheep_generated-image-348261704.jpg-b20b7bf47e533f032cdacb307ebb3ae7.s3tc.ctex"
 path.etc2="res://.godot/imported/sheep_generated-image-348261704.jpg-b20b7bf47e533f032cdacb307ebb3ae7.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "3704d2e57cd71f896ddb88d7cabf5795"
 }
 
 [deps]

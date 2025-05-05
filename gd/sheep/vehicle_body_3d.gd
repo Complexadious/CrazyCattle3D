@@ -101,7 +101,9 @@ func _input(event):
 		$detect_ground / RichTextLabel.visible = Global.fly
 		$detect_ground / RichTextLabel.text = "Flying"
 	if event.is_action_pressed("test"):
-		$close_call_txt.trigger(QuickScreenTextType.KILL)
+		var targets = Global.WorldRef.get_node("Sheep").get_children()
+		for sheep in targets:
+			sheep.queue_free()
 	if event.is_action_pressed("look_back"):
 		if (flip_camera == false): # just changed
 			$Camera3D.rotate_y(deg_to_rad(180))

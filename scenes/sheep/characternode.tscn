@@ -103,6 +103,8 @@ var close_dist: int = 10
 
 func _ready() -> void:
 	detect = $detect_sight
+	if !Global.debug_rendering:
+		$targetcube.visible = false
 
 func target_update() -> void:
 	if sleeping:
@@ -157,8 +159,9 @@ func _physics_process(delta):
 		lerp_intensity = randi_range(500, 250)
 
 		# Target cube position (debug visual)
-		var cube = $targetcube
-		cube.global_position = tpos
+		if Global.debug_rendering:
+			var cube = $targetcube
+			cube.global_position = tpos
 
 		# Turning flags if needed (optional logic for force/steering)
 		var tdist = global_position.distance_to(tpos)

@@ -104,6 +104,10 @@ join={
 ]
 }
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [physics]
 
 2d/run_on_separate_thread=true

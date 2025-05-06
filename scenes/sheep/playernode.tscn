@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://d8gnmkghjw4y"]
+[gd_scene load_steps=50 format=3 uid="uid://d8gnmkghjw4y"]
 
 [ext_resource type="Script" uid="uid://chi0wro6852wf" path="res://gd/sheep/vehicle_body_3d.gd" id="1"]
 [ext_resource type="Script" uid="uid://banxly3nima0g" path="res://scenes/sheep/playernode.gd" id="1_13bao"]
@@ -20,6 +20,10 @@
 [ext_resource type="Script" uid="uid://bmdnyd7onlj4m" path="res://gd/sheep/close_call_text.gd" id="11_d13o4"]
 [ext_resource type="PackedScene" uid="uid://em7larvq8lrm" path="res://scenes/menu/pause.tscn" id="12"]
 [ext_resource type="Script" uid="uid://lu0vlkmgj6rg" path="res://gd/sheep/phys_cull_sphere.gd" id="17_h4534"]
+[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="21_0ouva"]
+[ext_resource type="Script" uid="uid://jssubg04alog" path="res://gd/sheep/mobile_ui.gd" id="21_3aqrq"]
+[ext_resource type="Texture2D" uid="uid://1hhykj13vefp" path="res://assets/misc/textures/menu/mcpe_esc_icon.png" id="22_8p863"]
+[ext_resource type="Script" uid="uid://bqxyhodimgkro" path="res://gd/sheep/mobile_escape_button.gd" id="23_3aqrq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mckr2"]
 atlas = ExtResource("5")
@@ -484,4 +488,34 @@ replication_config = SubResource("SceneReplicationConfig_13bao")
 wait_time = 0.1
 autostart = true
 
+[node name="Mobile" type="CanvasLayer" parent="."]
+script = ExtResource("21_3aqrq")
+
+[node name="Virtual Joystick" parent="Mobile" instance=ExtResource("21_0ouva")]
+offset_left = 13.0
+offset_top = -179.0
+offset_right = 213.0
+offset_bottom = 21.0
+scale = Vector2(0.6, 0.6)
+action_left = "right"
+action_right = "left"
+action_up = "forward"
+action_down = "back"
+
+[node name="Escape" type="Button" parent="Mobile"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -37.0
+offset_top = 7.0
+offset_right = 5.0
+offset_bottom = 51.0
+grow_horizontal = 0
+scale = Vector2(0.75, 0.75)
+theme_override_icons/icon = ExtResource("22_8p863")
+action_mode = 0
+button_mask = 7
+script = ExtResource("23_3aqrq")
+
 [connection signal="timeout" from="RefreshPhysicsCulling" to="." method="_on_refresh_physics_culling_timeout"]
+[connection signal="pressed" from="Mobile/Escape" to="Mobile/Escape" method="_on_pressed"]

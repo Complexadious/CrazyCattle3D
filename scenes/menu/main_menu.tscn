@@ -1,14 +1,15 @@
-[gd_scene load_steps=14 format=3 uid="uid://ckacwciiu6sh4"]
+[gd_scene load_steps=15 format=3 uid="uid://ckacwciiu6sh4"]
 
 [ext_resource type="Texture2D" uid="uid://52na5utmgmrn" path="res://assets/misc/textures/menu/menu.png" id="1_vovv2"]
 [ext_resource type="Script" uid="uid://xmae1ksmw4kg" path="res://gd/misc/menu/main_menu.gd" id="2_1k4da"]
 [ext_resource type="FontFile" uid="uid://cvvi6o8v4r7dh" path="res://assets/misc/fonts/ariblk.ttf" id="3_bbqo6"]
-[ext_resource type="AudioStream" uid="uid://b4ysnjsshn364" path="res://assets/misc/sounds/uihover.mp3" id="4_vovv2"]
-[ext_resource type="AudioStream" uid="uid://3e6asid2bfxh" path="res://assets/misc/sounds/uipress.mp3" id="5_1k4da"]
-[ext_resource type="AudioStream" uid="uid://dpme8t701ycho" path="res://assets/misc/sounds/uirelease.mp3" id="6_bbqo6"]
-[ext_resource type="AudioStream" uid="uid://bw8dabod042is" path="res://assets/misc/sounds/baa.mp3" id="7_d4hu8"]
+[ext_resource type="AudioStream" uid="uid://dpjaj3xdt5p33" path="res://assets/misc/sounds/uihover.mp3" id="4_vovv2"]
+[ext_resource type="AudioStream" uid="uid://xkjvrora085g" path="res://assets/misc/sounds/uipress.mp3" id="5_1k4da"]
+[ext_resource type="AudioStream" uid="uid://ckex6l02i2wcl" path="res://assets/misc/sounds/uirelease.mp3" id="6_bbqo6"]
+[ext_resource type="AudioStream" uid="uid://dfhu80n6k2cx8" path="res://assets/misc/sounds/baa.mp3" id="7_d4hu8"]
 [ext_resource type="Texture2D" uid="uid://biq4difdo2584" path="res://assets/misc/textures/menu/crazycattle_logo.png" id="8_gdhp0"]
 [ext_resource type="Texture2D" uid="uid://dx11833n71gqk" path="res://assets/misc/textures/menu/crazy_icon.png" id="9_pstia"]
+[ext_resource type="Script" uid="uid://cjf4s453klk7l" path="res://gd/misc/menu/main_menu_device_txt.gd" id="10_1k4da"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ecwwl"]
 
@@ -138,10 +139,10 @@ stream = ExtResource("7_d4hu8")
 volume_db = -10.0
 pitch_scale = 1.25
 
-[node name="text" type="Label" parent="."]
-offset_top = 458.0
+[node name="trademark" type="Label" parent="."]
+offset_top = 460.0
 offset_right = 639.0
-offset_bottom = 480.0
+offset_bottom = 482.0
 text = "CrazyCattle3D is a registered trademark of Anna Mayberry LLC. This software is distrubuted as donationware"
 label_settings = SubResource("LabelSettings_h1wq0")
 horizontal_alignment = 1
@@ -189,6 +190,15 @@ text = "Multiplayer"
 alignment = 0
 
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
+
+[node name="device" type="Label" parent="."]
+offset_top = 448.0
+offset_right = 620.0
+offset_bottom = 470.0
+text = "<generic device>"
+label_settings = SubResource("LabelSettings_h1wq0")
+horizontal_alignment = 2
+script = ExtResource("10_1k4da")
 
 [connection signal="button_down" from="ng" to="." method="_on_ng_button_down"]
 [connection signal="button_up" from="ng" to="." method="_on_ng_button_up"]

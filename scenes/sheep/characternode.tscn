@@ -5,9 +5,9 @@
 [ext_resource type="Script" uid="uid://c6ax1aatog7is" path="res://gd/sheep/num_label.gd" id="3"]
 [ext_resource type="Script" uid="uid://5gf0sit3fwde" path="res://scenes/sheep/crown_mount.gd" id="3_f0x55"]
 [ext_resource type="Script" uid="uid://c4366oumxkkxv" path="res://gd/sheep/detect_dead.gd" id="3_idw84"]
-[ext_resource type="AudioStream" uid="uid://cudi0vlioxdp7" path="res://assets/misc/sounds/explode.mp3" id="4"]
+[ext_resource type="AudioStream" uid="uid://bxkwekngs2no1" path="res://assets/misc/sounds/explode.mp3" id="4"]
 [ext_resource type="Texture2D" uid="uid://h0ju080swc63" path="res://assets/misc/textures/explodesprite/explosion-Sheet.png" id="5"]
-[ext_resource type="AudioStream" uid="uid://bw8dabod042is" path="res://assets/misc/sounds/baa.mp3" id="6"]
+[ext_resource type="AudioStream" uid="uid://dfhu80n6k2cx8" path="res://assets/misc/sounds/baa.mp3" id="6"]
 [ext_resource type="Script" uid="uid://b404dgfmmima7" path="res://gd/sheep/detect_sheep.gd" id="6_cu6n2"]
 
 [sub_resource type="GDScript" id="GDScript_ol8a7"]

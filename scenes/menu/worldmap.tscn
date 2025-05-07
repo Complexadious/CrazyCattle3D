@@ -236,7 +236,7 @@ text = "New York City"
 alignment = 0
 metadata/_edit_use_anchors_ = true
 
-[node name="oblock" type="Button" parent="."]
+[node name="china" type="Button" parent="."]
 offset_left = 267.0
 offset_top = 170.0
 offset_right = 361.0
@@ -260,8 +260,7 @@ theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_4g60y")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_4g60y")
 theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_4g60y")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_4g60y")
-disabled = true
-text = "O Block"
+text = "China"
 alignment = 0
 metadata/_edit_use_anchors_ = true
 
@@ -289,7 +288,7 @@ metadata/_edit_use_anchors_ = true
 [connection signal="button_up" from="nyc" to="." method="_on_nyc_button_up"]
 [connection signal="mouse_entered" from="nyc" to="." method="_on_nyc_mouse_entered"]
 [connection signal="pressed" from="nyc" to="." method="_on_nyc_pressed"]
-[connection signal="button_down" from="oblock" to="." method="_on_oblock_button_down"]
-[connection signal="button_up" from="oblock" to="." method="_on_oblock_button_up"]
-[connection signal="mouse_entered" from="oblock" to="." method="_on_oblock_mouse_entered"]
-[connection signal="pressed" from="oblock" to="." method="_on_oblock_pressed"]
+[connection signal="button_down" from="china" to="." method="_on_china_button_down"]
+[connection signal="button_up" from="china" to="." method="_on_china_button_up"]
+[connection signal="mouse_entered" from="china" to="." method="_on_china_mouse_entered"]
+[connection signal="pressed" from="china" to="." method="_on_china_pressed"]

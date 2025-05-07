@@ -42,10 +42,10 @@ func _on_nyc_pressed() -> void :
 		CC3D.load_level("nyc")
 		#get_tree().change_scene_to_file("res://scenes/environment/nyc/nyc.tscn")
 		
-func _on_oblock_pressed() -> void :
+func _on_china_pressed() -> void :
 	$Uirelease.play()
 	if Global.enable_nyc:
-		CC3D.load_level("oblock")
+		CC3D.load_level("china")
 		#get_tree().change_scene_to_file("res://scenes/environment/oblock/oblock.tscn")
 
 func _on_egy_pressed() -> void :
@@ -71,7 +71,7 @@ func _on_ire_button_down() -> void :
 func _on_nyc_button_down() -> void :
 	$Uipress.play()
 
-func _on_oblock_button_down() -> void :
+func _on_china_button_down() -> void :
 	$Uipress.play()
 
 func _on_egy_button_down() -> void :
@@ -100,7 +100,7 @@ func _on_nyc_mouse_entered() -> void :
 	if $ire.disabled == false:
 		$Uihover.play()
 
-func _on_oblock_mouse_entered() -> void :
+func _on_china_mouse_entered() -> void :
 	if $ire.disabled == false:
 		$Uihover.play()
 
@@ -114,31 +114,3 @@ func _on_return_mouse_entered() -> void :
 
 func _on_return_2_mouse_entered() -> void :
 	$Uihover.play()
-
-
-func _on_swe_button_up() -> void:
-	pass # Replace with function body.
-
-
-func _on_ire_button_up() -> void:
-	pass # Replace with function body.
-
-
-func _on_egy_button_up() -> void:
-	pass # Replace with function body.
-
-
-func _on_return_button_up() -> void:
-	pass # Replace with function body.
-
-
-func _on_return_2_button_up() -> void:
-	pass # Replace with function body.
-
-
-func _on_oblock_button_up() -> void:
-	pass # Replace with function body.
-
-
-func _on_nyc_button_up() -> void:
-	pass # Replace with function body.

@@ -16,15 +16,20 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="uid://big08kqdoi028"
 config/icon="uid://dx11833n71gqk"
-config/windows_native_icon="res://assets/misc/textures/menu/crazyicon.ico"
+config/windows_native_icon="res://cc3d/assets/optimized/menu/_shared/textures/ui/crazyicon.ico"
 boot_splash/minimum_display_time=3000
+
+[audio]
+
+buses/default_bus_layout="res://cc3d/default_bus_layout.tres"
 
 [autoload]
 
-Global="*res://gd/global.gd"
-QuickScreenTextType="*res://gd/sheep/QuickScreenText.gd"
-CC3D="*res://gd/cc3d.gd"
-MultiplayerHandler="*res://gd/misc/multiplayer/multiplayer_class.gd"
+Global="*res://cc3d/code/core/global/class/global_class.gd"
+QuickScreenTextType="*res://cc3d/code/entity/sheep/gd/QuickScreenText.gd"
+CC3D="*res://cc3d/code/core/cc3d/class/cc3d_class.gd"
+MultiplayerHandler="*res://cc3d/code/core/multiplayer/class/multiplayer_class.gd"
+Registry="*res://cc3d/code/core/registry/class/registry_class.gd"
 
 [display]
 

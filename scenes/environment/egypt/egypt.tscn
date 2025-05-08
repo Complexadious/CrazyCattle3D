@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dwa0bvxbkhi26"]
+[gd_scene load_steps=14 format=3 uid="uid://dwa0bvxbkhi26"]
 
 [ext_resource type="Script" uid="uid://bmsi4f36mfknl" path="res://gd/environment/egypt/egypt.gd" id="1_pnl7o"]
 [ext_resource type="Texture2D" uid="uid://c2ft3k35qc07v" path="res://assets/environment/egypt/textures/egypt3.png" id="2_kiubs"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bc1fshpqvqgqa" path="res://assets/misc/models/fence/fencircular.glb" id="5_i7j2w"]
 [ext_resource type="AudioStream" uid="uid://b7encieg0m271" path="res://assets/environment/egypt/sounds/world2.mp3" id="6_pnl7o"]
 [ext_resource type="PackedScene" uid="uid://bpne2tfsx3agn" path="res://assets/environment/egypt/models/pyramid/pyramid.glb" id="7_1p51i"]
+[ext_resource type="Script" uid="uid://e0a7k7jsaox2" path="res://gd/misc/classes/world_bg_sound_class.gd" id="7_6yvs7"]
 [ext_resource type="Texture2D" uid="uid://bgby244m6r4qs" path="res://assets/environment/egypt/textures/palmtree.png" id="8_qmajf"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7b2gm"]
@@ -67,6 +68,8 @@ stream = ExtResource("6_pnl7o")
 volume_db = -16.0
 autoplay = true
 bus = &"Music"
+script = ExtResource("7_6yvs7")
+metadata/_custom_type_script = "uid://e0a7k7jsaox2"
 
 [node name="Sheep" type="Node" parent="."]
 

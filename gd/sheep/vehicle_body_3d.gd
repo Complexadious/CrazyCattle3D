@@ -1,5 +1,8 @@
 extends VehicleBody3D
 
+var default_engine_power : float = 0.0
+var ctrl_engine_power_multiplier : float = 2
+
 var isdead = false
 var iswinstate = false
 
@@ -36,6 +39,7 @@ func _ready():
 	_log("Registered Player Ref: " + str(Global.PlayerRef))
 	$sphere.visible = Global.enable_physics_sphere
 	cam_inital_x = $Camera3D.global_rotation.x
+	default_engine_power = engine_force
 	
 func bleat():
 	$Bleat.pitch_scale = randf_range(0.7, 1.3)
@@ -108,7 +112,7 @@ func _input(event):
 		if (flip_camera == false): # just changed
 			$Camera3D.rotate_y(deg_to_rad(180))
 		flip_camera = true
-		CC3D.spawn_sheep_at($Camera3D.global_position, global_rotation, "TEST")
+#		CC3D.spawn_sheep_at($Camera3D.global_position, global_rotation, "TEST")
 	if event.is_action_released("look_back"):
 		if (flip_camera == true): # just changed
 			$Camera3D.rotate_y(deg_to_rad(180))
@@ -117,7 +121,10 @@ func _input(event):
 		MultiplayerHandler.host(25565)
 	if event.is_action_pressed("join"):
 		MultiplayerHandler.join("localhost", 25565)
-	
+	if event.is_action_pressed("run"):
+		engine_force = default_engine_power * ctrl_engine_power_multiplier
+	if event.is_action_released("run"):
+		engine_force = default_engine_power
 	# handle flight
 	if event is InputEventMouseButton and Global.fly:
 		if event.button_index == MOUSE_BUTTON_RIGHT:
@@ -156,11 +163,6 @@ var close_call_cooldown_curr = 0
 func is_airborne():
 	Global.airborne = !$detect_ground.is_colliding()
 	return Global.airborne
-
-func z_chk(deg):
-	return (abs(rad_to_deg(global_rotation.z)) > deg)
-func x_chk(deg):
-	return (abs(rad_to_deg(global_rotation.z)) > deg)
 
 func refreshPhysicsCulling() -> void:
 	# 1. fast early-out ───────────────────────────────────────────────────────
@@ -233,6 +235,11 @@ func refreshPhysicsCulling() -> void:
 #		$Camera3D.global_rotation.z = $sheep.global_rotation.z
 #		$Camera3D.global_rotation.x = $sheep.global_rotation.x + cam_inital_x
 
+func z_chk(deg):
+	return (abs(rad_to_deg(global_rotation.z)) > deg)
+func x_chk(deg):
+	return (abs(rad_to_deg(global_rotation.z)) > deg)
+
 func _physics_process(delta):
 	if not is_multiplayer_authority():
 		return  # Only process input if this player is the owner
@@ -271,10 +278,12 @@ func _physics_process(delta):
 	# trigger close call
 	if (close_call_cooldown_curr <= 0) && (z_chk(27) || x_chk(36)) && !is_airborne():
 		close_call_cooldown_curr = close_call_cooldown
+		print("trigger1")
 		$close_call_txt.trigger(QuickScreenTextType.REALLY_CLOSE_CALL, 45)
 		$close_call_txt.pause()
 	if (close_call_cooldown_curr <= 0) && (z_chk(23) || x_chk(32)) && !is_airborne():
 		close_call_cooldown_curr = close_call_cooldown
+		print("trigger2")
 		$close_call_txt.trigger(QuickScreenTextType.CLOSE_CALL, 45)
 		$close_call_txt.pause()
 	elif (!z_chk(6) || !x_chk(6)) && !is_airborne():

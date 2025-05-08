@@ -58,10 +58,10 @@ func _physics_process(_delta):
 			var elim_msg = \"Sheep \"+str(lname)+\" has been eliminated.\"
 			if ($VehicleBody3D/detect_dead.lasttouchedobject != null):
 				elim_msg = \"Sheep \"+str(lname)+\" hit the \" + str($VehicleBody3D/detect_dead.lasttouchedobject) + \".\"
-			if ($VehicleBody3D/detect_sheep.lasttouchedsheepname != null):
+			if (($VehicleBody3D/detect_sheep != null) && $VehicleBody3D/detect_sheep.lasttouchedsheepname != null):
 				$VehicleBody3D/detect_sheep.lasttouchedsheep.get_parent().kills += 1
 				elim_msg = \"Sheep \"+str(lname)+\" was killed by \" + str($VehicleBody3D/detect_sheep.lasttouchedsheepname) + \".\"
-			if ($VehicleBody3D/detect_sheep.lasttouchedsheepname != null) && ($VehicleBody3D/detect_dead.lasttouchedobject != null):
+			if (($VehicleBody3D/detect_sheep != null) && $VehicleBody3D/detect_sheep.lasttouchedsheepname != null) && ($VehicleBody3D/detect_dead.lasttouchedobject != null):
 				elim_msg = \"Sheep \"+str(lname)+\" was pushed into the \"+str($VehicleBody3D/detect_dead.lasttouchedobject)+\" by \" + str($VehicleBody3D/detect_sheep.lasttouchedsheepname) + \".\"
 			Global.eliminated = elim_msg
 			_log(elim_msg, \"INFO\", \"_physics_process\")
@@ -70,7 +70,7 @@ func _physics_process(_delta):
 			$VehicleBody3D/explosion.play()
 			$VehicleBody3D/sheep.queue_free()
 			$VehicleBody3D/CollisionShape3D.queue_free()
-			$Timer.one_shot = true
+			$Baah.one_shot = true
 			Global.global_sheep -= 1
 			isdead = true
 
@@ -81,12 +81,14 @@ func _physics_process(_delta):
 func _on_timer_timeout() -> void:
 	$VehicleBody3D/Bleat.pitch_scale = randf_range(0.7,1.3)
 	$VehicleBody3D/Bleat.play()
-	$Timer.wait_time = newtime()
+	$Baah.wait_time = newtime()
 "
 
 [sub_resource type="GDScript" id="GDScript_q5qcx"]
 resource_name = "npcscript"
 script/source = "extends VehicleBody3D
+
+var speed_multiplier : float = 1.0
 
 var ang: float
 var colliding: bool
@@ -124,7 +126,6 @@ func target_update() -> void:
 		pass
 	
 	if (!p.isdead && ($sheep/Label3D.text == \"2\")):
-		print(\"i am 2, i will target the player\")
 		forced_target = Global.WorldRef.get_node_or_null(\"Player\")
 	
 	colliding = detect.is_colliding() && (detect.get_collider(0) is VehicleBody3D)
@@ -220,42 +221,35 @@ func _physics_process(delta):
 		
 		global_rotation.y = lerp_angle(global_rotation.y, desired_rot_y, tdist  / lerp_intensity)
 
-	steering = 0
-	engine_force = 100
+	steering = 0 * speed_multiplier
+	engine_force = 150 * speed_multiplier
 
 	if charge:
-		steering = 0
-		engine_force = 200
+		steering = 0 * speed_multiplier
+		engine_force = 200 * speed_multiplier
 	elif ccleft:
-		steering = 9
-		engine_force = 300
+		steering = 9 * speed_multiplier
+		engine_force = 300 * speed_multiplier
 	elif ccright:
-		steering = 9
-		engine_force = 300
+		steering = 9 * speed_multiplier
+		engine_force = 300 * speed_multiplier
 	elif cleft:
-		steering = 9
-		engine_force = 300
+		steering = 9 * speed_multiplier
+		engine_force = 300 * speed_multiplier
 	elif cright:
-		steering = -9
-		engine_force = 300
+		steering = -9 * speed_multiplier
+		engine_force = 300 * speed_multiplier
 	elif left:
-		steering = 3
-		engine_force = 70
+		steering = 3 * speed_multiplier
+		engine_force = 70 * speed_multiplier
 	elif right:
-		steering = -3
-		engine_force = 70
+		steering = -3 * speed_multiplier
+		engine_force = 70 * speed_multiplier
 	else:
-		steering = 0
-
-
-func _on_tree_entered() -> void:
-	pass # Replace with function body.
+		steering = 0 * speed_multiplier
 
 func _on_target_timer_timeout() -> void:
 	target_update()
-
-func _on_rotation_lerp_timeout() -> void:
-	pass
 "
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_82ayb"]
@@ -541,7 +535,7 @@ script = SubResource("GDScript_wyywi")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05811, 0.704883, 0)
 mesh = SubResource("BoxMesh_wyywi")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Baah" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
 
@@ -552,10 +546,7 @@ replication_config = SubResource("SceneReplicationConfig_wyywi")
 wait_time = 0.75
 autostart = true
 
-[node name="RotationLerp" type="Timer" parent="."]
-wait_time = 0.5
-autostart = true
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="."]
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Baah" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="TargetTimer" to="VehicleBody3D" method="_on_target_timer_timeout"]
-[connection signal="timeout" from="RotationLerp" to="VehicleBody3D" method="_on_rotation_lerp_timeout"]

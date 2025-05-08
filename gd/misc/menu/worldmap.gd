@@ -6,8 +6,6 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	updateUnlocks()
 	updateUIticks()
-	if !Global.enable_nyc:
-		CC3D.log("NYC directory at '"+str(Global.nyc_resources_path)+"' doesn't exist or 'Global.enable_nyc' is 'false', (NYC is disabled!)", "WARNING", self, "_ready")
 		
 
 func updateUnlocks():
@@ -19,6 +17,12 @@ func updateUnlocks():
 				$swe.disabled = false
 	if Global.enable_nyc:
 		$nyc.disabled = false
+	if Global.enable_china:
+		$china.disabled = false
+		$china.visible = true
+	else:
+		$china.disabled = true
+		$china.visible = false
 
 func updateUIticks():
 	if Global.beatenlevels >= 1:

@@ -96,6 +96,7 @@ func onLevelLoad(ref):
 			print("onLevelLoad: Error managing enhanced lighting, 'DirectionalLight3D' not found!")
 		if (env != null):
 			env.sdfgi_enabled = false
+			env.tonemap_exposure = 1
 		else:
 			print("onLevelLoad: Error managing enhanced lighting, 'WorlEnvironment.environment' not found!")
 	
@@ -114,6 +115,8 @@ var nyc_resources_path = "res://assets/environment/nyc"
 
 var enable_nyc : bool = DirAccess.open(nyc_resources_path) != null
 
+var enable_china : bool = false
+
 var spawn_sheep_radius = 170
 
 var sheep_spawn_count = 60
@@ -121,5 +124,7 @@ var sheep_spawn_count = 60
 var sheep_spawn_center = Vector3.ZERO
 
 var root = null
+
+var cc3d_game_version = "v0.1.1 (Dev/ "+str(OS.get_name())+")"
 
 #var multi = MultiplayerHandler

@@ -15,3 +15,7 @@ func _ready():
 func _process(delta: float) -> void:
 	fov = $Player/VehicleBody3D/Camera3D.fov
 	env.sky_custom_fov = fov
+
+
+func _on_bg_audio_finished() -> void:
+	$World1.play()

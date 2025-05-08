@@ -53,13 +53,13 @@ func is_a_menu_loaded():
 
 func reload_level() -> void:
 	var lvl = self.level.internal_name if self.level.internal_name != null else "NO_LEVEL_LOADED"
-	_log("Reloading level '"+str(self.level)+"'", "INFO", "reload_level")
+	_log("Reloading level '"+str(lvl)+"'", "INFO", "reload_level")
 	if self.level.internal_name != null:
 		load_level(self.level.internal_name)
 		
 func reload_menu() -> void:
-	var lvl = self.menu.internal_name if self.menu.internal_name != null else "NO_MENU_LOADED"
-	_log("Reloading menu '"+str(self.menu)+"'", "INFO", "reload_menu")
+	var m = self.menu.internal_name if self.menu.internal_name != null else "NO_MENU_LOADED"
+	_log("Reloading menu '"+str(m)+"'", "INFO", "reload_menu")
 	if self.menu.internal_name != null:
 		load_level(self.menu.internal_name)
 
@@ -80,9 +80,9 @@ func load_level(internal_level_name: String) -> void:
 	clear_menus()
 	clear_levels()
 	var path = "res://scenes/environment/"+internal_level_name+"/"+internal_level_name+".tscn"
-	if !DirAccess.dir_exists_absolute(path):
+	if !ResourceLoader.exists(path):
 		_log("Unable to load non-existent level '"+internal_level_name+"' ("+path+")", "ERROR", "load_level")
-		pass
+		return
 	var l = load(path).instantiate()
 	Global.root.get_node("Level").add_child(l)
 	l.internal_name = internal_level_name
@@ -94,9 +94,9 @@ func load_menu(internal_menu_name: String, clear_level: bool = true) -> void:
 	if clear_level:
 		clear_levels()
 	var path = "res://scenes/menu/"+internal_menu_name+".tscn"
-	if !DirAccess.dir_exists_absolute(path):
+	if !ResourceLoader.exists(path):
 		_log("Unable to load non-existent menu '"+internal_menu_name+"' ("+path+")", "ERROR", "load_level")
-		pass
+		return
 	var m = load(path).instantiate()
 	Global.root.get_node("Menu").add_child(m)
 	m.internal_name = internal_menu_name
@@ -139,4 +139,28 @@ func spawn_sheep_in_circle(max_sheep: int, center: Vector3, radius: float):
 			dist = sqrt(randf()) * radius
 			vehicle.global_position = center + Vector3(dist * cos(angle), 0, dist * sin(angle))
 			__log.call("sheep had to be moved since colliding w sum")
-	
+
+func grass_decorator(texture, wscale, hscale) -> MultiMeshInstance3D:
+	var i = MultiMeshInstance3D.new()
+	var mm = i.multimesh
+#	mm
+	return i
+
+func spawn_ground_decorators_in_circle(decorator: MultiMeshInstance3D, count: int, center: Vector3, radius: float):
+	var __log = func(msg, type := "INFO"):
+		_log(msg, type, "spawn_ground_decorator_texture_in_circle")
+	__log.call("spawning ground decorators (textures) in a circle of radius "+str(radius)+" centered at "+str(center), "INFO")
+	for num in range(count):
+		var angle = randf_range(0, TAU)
+		var dist = sqrt(randf()) * radius
+		var x = center.x + dist * cos(angle)
+		var z = center.z + dist * sin(angle)
+		var pos = Vector3(x, center.y, z)
+		var rot = Vector3(0, randf_range(0, 6.283), 0)
+		var vehicle = spawn_sheep_at(pos, rot).get_node("VehicleBody3D")
+		var detect_dead = vehicle.get_node("detect_dead")
+		while (detect_dead.is_colliding()):
+			angle = randf_range(0, TAU)
+			dist = sqrt(randf()) * radius
+			vehicle.global_position = center + Vector3(dist * cos(angle), 0, dist * sin(angle))
+			__log.call("decorator had to be moved since colliding w sum")

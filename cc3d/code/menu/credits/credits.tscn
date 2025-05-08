@@ -1,0 +1,87 @@
+[gd_scene load_steps=11 format=3 uid="uid://crf36lax3jemg"]
+
+[ext_resource type="Script" uid="uid://qvyrou3cwwg4" path="res://cc3d/code/menu/credits/gd/credits.gd" id="1_0gm6s"]
+[ext_resource type="Texture2D" uid="uid://b81ijn2b48oth" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/credits.png" id="2_i4m4s"]
+[ext_resource type="AudioStream" uid="uid://do8nicry0h37" path="res://cc3d/assets/optimized/menu/_shared/sounds/credits.mp3" id="3_7oxqi"]
+[ext_resource type="FontFile" uid="uid://cvvi6o8v4r7dh" path="res://cc3d/assets/optimized/menu/_shared/fonts/ariblk.ttf" id="4_as5h1"]
+[ext_resource type="AudioStream" uid="uid://b4ysnjsshn364" path="res://cc3d/assets/optimized/menu/_shared/sounds/uihover.mp3" id="5_kf372"]
+[ext_resource type="AudioStream" uid="uid://3e6asid2bfxh" path="res://cc3d/assets/optimized/menu/_shared/sounds/uipress.mp3" id="6_arqqs"]
+[ext_resource type="AudioStream" uid="uid://dpme8t701ycho" path="res://cc3d/assets/optimized/menu/_shared/sounds/uirelease.mp3" id="7_ayqc8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mae5d"]
+
+[sub_resource type="Theme" id="Theme_lnt0k"]
+default_font = ExtResource("4_as5h1")
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0.545924, 0.934453, 1)
+Button/colors/font_hover_pressed_color = Color(0.0536234, 0, 0.872918, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0.160392, 0.185003, 1, 1)
+Button/font_sizes/font_size = 12
+Button/fonts/font = ExtResource("4_as5h1")
+Panel/styles/panel = SubResource("StyleBoxEmpty_mae5d")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_604bw"]
+
+[node name="credits" type="Node2D"]
+script = ExtResource("1_0gm6s")
+
+[node name="Credits" type="Sprite2D" parent="."]
+position = Vector2(320, 240)
+texture = ExtResource("2_i4m4s")
+
+[node name="Credits2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_7oxqi")
+volume_db = -16.0
+autoplay = true
+bus = &"Music"
+
+[node name="return" type="Button" parent="Credits2"]
+offset_left = 16.0
+offset_top = 448.0
+offset_right = 147.0
+offset_bottom = 466.0
+scale = Vector2(1.20892, 1.20892)
+theme = SubResource("Theme_lnt0k")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("4_as5h1")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/focus = SubResource("StyleBoxEmpty_604bw")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_604bw")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_604bw")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_604bw")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_604bw")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_604bw")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_604bw")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_604bw")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_604bw")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_604bw")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_604bw")
+text = "Back to Trophy Room"
+alignment = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Uihover" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_kf372")
+volume_db = -10.0
+mix_target = 2
+max_polyphony = 6
+
+[node name="Uipress" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_arqqs")
+volume_db = -10.0
+mix_target = 2
+
+[node name="Uirelease" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_ayqc8")
+volume_db = -10.0
+mix_target = 2
+
+[connection signal="button_down" from="Credits2/return" to="." method="_on_return_button_down"]
+[connection signal="button_up" from="Credits2/return" to="." method="_on_return_button_up"]
+[connection signal="mouse_entered" from="Credits2/return" to="." method="_on_return_mouse_entered"]

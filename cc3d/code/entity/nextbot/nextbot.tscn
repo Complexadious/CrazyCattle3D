@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfjarri0vjs2r"]
+
+[ext_resource type="Texture2D" uid="uid://cmba6cl0tengd" path="res://cc3d/assets/optimized/entity/nextbot/textures/kanye.jpeg" id="1_07axk"]
+[ext_resource type="Script" uid="uid://dbb40xji4jywx" path="res://cc3d/code/entity/nextbot/gd/nextbot.gd" id="1_jwmx1"]
+
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jwmx1"]
+
+[node name="Nextbot" type="Node3D"]
+script = ExtResource("1_jwmx1")
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8658, 0)
+shape = SubResource("CapsuleShape3D_jwmx1")
+
+[node name="Sprite3D" type="Sprite3D" parent="ShapeCast3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.578974, 0)
+billboard = 1
+texture = ExtResource("1_07axk")
+
+[node name="MoveTo" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="MoveTo" to="." method="update_target_pos"]

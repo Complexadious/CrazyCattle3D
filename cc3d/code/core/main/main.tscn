@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnqibaldkqfi2"]
+
+[ext_resource type="Script" uid="uid://dw3an0yk4hg6e" path="res://cc3d/code/core/main/gd/main.gd" id="1_xa3uj"]
+[ext_resource type="Script" uid="uid://1pfcc6k613ed" path="res://cc3d/code/core/level/class/level_class.gd" id="2_kl3tr"]
+
+[node name="main" type="Node3D"]
+script = ExtResource("1_xa3uj")
+
+[node name="Menu" type="Node" parent="."]
+
+[node name="Level" type="Node" parent="."]
+script = ExtResource("2_kl3tr")
+metadata/_custom_type_script = "uid://1pfcc6k613ed"
+
+[node name="Map" type="Node" parent="Level"]
+
+[node name="Sheep" type="Node" parent="Level"]
+
+[node name="Players" type="Node" parent="Level"]

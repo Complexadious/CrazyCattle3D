@@ -1,0 +1,565 @@
+[gd_scene load_steps=37 format=3 uid="uid://bfllceqgmkr8f"]
+
+[ext_resource type="PackedScene" uid="uid://dxt6cdxnpvbdb" path="res://cc3d/assets/optimized/entity/sheep/models/sheep.tscn" id="1_du0kp"]
+[ext_resource type="PackedScene" uid="uid://b8tmssbc65jlc" path="res://cc3d/code/entity/sheep/crown.tscn" id="2_wyywi"]
+[ext_resource type="Script" uid="uid://c6ax1aatog7is" path="res://cc3d/code/entity/sheep/gd/num_label.gd" id="3"]
+[ext_resource type="Script" uid="uid://5gf0sit3fwde" path="res://cc3d/code/entity/sheep/gd/crown_mount.gd" id="3_f0x55"]
+[ext_resource type="Script" uid="uid://c4366oumxkkxv" path="res://cc3d/code/entity/sheep/gd/detect_dead.gd" id="3_idw84"]
+[ext_resource type="AudioStream" uid="uid://cudi0vlioxdp7" path="res://cc3d/assets/optimized/menu/_shared/sounds/explode.mp3" id="4"]
+[ext_resource type="Texture2D" uid="uid://h0ju080swc63" path="res://cc3d/assets/optimized/menu/_shared/textures/explodesprite/explosion-Sheet.png" id="5"]
+[ext_resource type="AudioStream" uid="uid://bw8dabod042is" path="res://cc3d/assets/optimized/menu/_shared/sounds/baa.mp3" id="6"]
+[ext_resource type="Script" uid="uid://b404dgfmmima7" path="res://cc3d/code/entity/sheep/gd/detect_sheep.gd" id="6_cu6n2"]
+
+[sub_resource type="GDScript" id="GDScript_ol8a7"]
+script/source = "extends Node3D
+
+var isdead = false
+var tick_offset = randi() % 20  # Each sheep gets its own random offset
+var kills = 0
+
+var max_mom = 10
+var mom_spd = 1
+var mom_curr = 0
+var dir = randi_range(0, 1)
+var c = null
+
+var peer_id : int
+
+func _log(msg: String, type: String, function_name: String):
+	CC3D.log(msg, type, self, function_name)
+
+func _enter_tree() -> void:
+	set_multiplayer_authority(int(peer_id))
+
+func newtime():
+	return randi_range(2,15)
+	
+func _ready():
+	c = $VehicleBody3D/sheep/Crown
+	Global.global_sheep += 1
+	randomize()
+	newtime()
+	if (dir == 0): dir = -1
+	c.visible = false
+	if Global.enable_physics_culling:
+		$VehicleBody3D.sleeping = false
+		$VehicleBody3D.set_physics_process(false)
+		$VehicleBody3D.visible = false
+
+func _physics_process(_delta):
+	if $VehicleBody3D.sleeping:
+		pass
+
+	if isdead == false:
+		var collider = $VehicleBody3D/detect_dead.get_collider(0) if $VehicleBody3D/detect_dead.is_colliding() else null
+		var dead = $VehicleBody3D/detect_dead.is_colliding() && true if ((collider != null) && !(collider.is_in_group(\"safe_collidable\")) && !(collider is VehicleBody3D)) else false
+		if dead == true:
+			var lname = $VehicleBody3D/sheep/Label3D.prefixed_name
+			var elim_msg = \"Sheep \"+str(lname)+\" has been eliminated.\"
+			if ($VehicleBody3D/detect_dead.lasttouchedobject != null):
+				elim_msg = \"Sheep \"+str(lname)+\" hit the \" + str($VehicleBody3D/detect_dead.lasttouchedobject) + \".\"
+			if (($VehicleBody3D/detect_sheep != null) && $VehicleBody3D/detect_sheep.lasttouchedsheepname != null):
+				$VehicleBody3D/detect_sheep.lasttouchedsheep.get_parent().kills += 1
+				elim_msg = \"Sheep \"+str(lname)+\" was killed by \" + str($VehicleBody3D/detect_sheep.lasttouchedsheepname) + \".\"
+			if (($VehicleBody3D/detect_sheep != null) && $VehicleBody3D/detect_sheep.lasttouchedsheepname != null) && ($VehicleBody3D/detect_dead.lasttouchedobject != null):
+				elim_msg = \"Sheep \"+str(lname)+\" was pushed into the \"+str($VehicleBody3D/detect_dead.lasttouchedobject)+\" by \" + str($VehicleBody3D/detect_sheep.lasttouchedsheepname) + \".\"
+			Global.eliminated = elim_msg
+			_log(elim_msg, \"INFO\", \"_physics_process\")
+#			Global.eliminated = \"[pulse]Sheep No. \"+str(lnum)+\" has been eliminated by \" + str(murderer) + \".\"
+			$VehicleBody3D/Explode.play()
+			$VehicleBody3D/explosion.play()
+			$VehicleBody3D/sheep.queue_free()
+			$VehicleBody3D/CollisionShape3D.queue_free()
+			$Baah.one_shot = true
+			Global.global_sheep -= 1
+			isdead = true
+
+	if (c != null) && (kills > 0):
+		c.visible = true
+		c.crown_count = kills
+
+func _on_timer_timeout() -> void:
+	$VehicleBody3D/Bleat.pitch_scale = randf_range(0.7,1.3)
+	$VehicleBody3D/Bleat.play()
+	$Baah.wait_time = newtime()
+"
+
+[sub_resource type="GDScript" id="GDScript_q5qcx"]
+resource_name = "npcscript"
+script/source = "extends VehicleBody3D
+
+var speed_multiplier : float = 2.0
+
+var ang: float
+var colliding: bool
+var closest_sheep: VehicleBody3D = null
+var tdist: float
+var detect: ShapeCast3D
+
+var current_rot_y: float = 0.0
+var desired_rot_y: float = 0.0
+var lerp_intensity: float = 0.0
+
+var charge: bool
+var left: bool
+var right: bool
+var cleft: bool
+var cright: bool
+var ccleft: bool
+var ccright: bool
+
+var ang_deg : float = 100.0
+var lerp_spd : float = 0.1
+
+var forced_target = null
+var p = null
+var close_dist: int = 10
+
+@onready var nav_agent = $NavigationAgent3D
+
+func _log(msg: String, type: String, function_name: String):
+	CC3D.log(msg, type, self, function_name)
+
+func _ready() -> void:
+	detect = $detect_sight
+	if !Global.debug_rendering:
+		$targetcube.visible = false
+	p = get_parent()
+
+func target_update() -> void:
+	if (p.isdead || sleeping):
+		pass
+	
+#	if (!p.isdead && ($sheep/Label3D.text == \"2\")):
+#		forced_target = Global.WorldRef.get_node_or_null(\"Player\")
+	
+	colliding = detect.is_colliding() && (detect.get_collider(0) is VehicleBody3D)
+	closest_sheep = null
+	
+	lerp_spd = randf_range(0.03, 0.08)
+	
+	#if colliding && forced_target == null:
+		#var closest_dist = INF
+		#for collider_id in range(detect.get_collision_count()):
+			#var collider = detect.get_collider(collider_id)
+			#if (collider != self) && ((collider is VehicleBody3D)):
+				#var dist = global_position.distance_squared_to(collider.global_position)
+				#if (dist < closest_dist):
+					#closest_dist = dist
+					#closest_sheep = collider
+		#tdist = sqrt(closest_dist)
+	#else:
+		# point towards closest sheep in the map or target
+	var closest_dist = INF
+	var targets: Array
+	if forced_target:
+		targets = [forced_target]
+	else:
+		targets = Global.WorldRef.get_node(\"Sheep\").get_children()
+		targets.append(Global.WorldRef.get_node(\"Player\"))
+	for sheep in targets:
+		var collider = sheep.get_node_or_null(\"VehicleBody3D\")
+		if (collider != self) && (collider != null):
+			var dist = global_position.distance_squared_to(collider.global_position)
+			if (dist < closest_dist):
+				closest_dist = dist
+				closest_sheep = collider
+	tdist = sqrt(closest_dist)
+	
+	if (closest_sheep != null):
+		nav_agent.target_position = closest_sheep.global_position
+
+func _physics_process(delta):
+	var t = Global.enable_sheep_targetting
+	# tdist = target distance from current pos (at most pos from timerdur sec ago, very close)
+	var pos = global_position
+	var lim = 15
+
+	current_rot_y = global_rotation.y
+
+	if closest_sheep:
+		var tpos = nav_agent.get_next_path_position() #closest_sheep.global_position
+		var to_target = (tpos - global_position).normalized()
+		var forward = -global_transform.basis.z.normalized()
+		var angle_rad = forward.signed_angle_to(to_target, Vector3.UP)
+		ang_deg = rad_to_deg(angle_rad)
+
+		# Smooth turning using global Y rotation
+		desired_rot_y = atan2(to_target.x, to_target.z)  # This is the global angle to face the target
+
+		# Interpolate rotation towards the desired one
+
+		# Target cube position (debug visual)
+		if Global.debug_rendering:
+			var cube = $targetcube
+			cube.global_position = tpos
+
+		## Turning flags if needed (optional logic for force/steering)
+		#var tdist = global_position.distance_to(tpos)
+		#var close_dist = 10
+#
+		#if abs(ang_deg) < lim:
+			#charge = true
+			#
+			#ccright = false
+			#cright = false
+			#right = false
+			#
+			#ccleft = false
+			#cleft = false
+			#left = false
+		#elif ang_deg > lim:
+			#ccright = (tdist < (close_dist / 2))
+			#cright = (tdist < close_dist)
+			#right = true
+			#
+			#ccleft = false
+			#cleft = false
+			#left = false
+		#elif ang_deg < -lim:
+			#ccleft = (tdist < (close_dist / 2))
+			#cleft = (tdist < close_dist)
+			#left = true
+			#
+			#ccright = false
+			#cright = false
+			#right = false
+			#
+		#if (ccright || ccleft):
+			#lerp_intensity = randi_range(100, 50)
+		#
+		global_rotation.y = lerp_angle(global_rotation.y, desired_rot_y, lerp_spd)
+#
+	steering = 0 * speed_multiplier
+	engine_force = (100 / (abs(360 - ang_deg) / randi_range(200, 300))) * speed_multiplier # slow down when turning
+#
+	#if charge:
+		#steering = 0 * speed_multiplier
+		#engine_force = 200 * speed_multiplier
+	#elif ccleft:
+		#steering = 9 * speed_multiplier
+		#engine_force = 150 * speed_multiplier
+	#elif ccright:
+		#steering = -9 * speed_multiplier
+		#engine_force = 150 * speed_multiplier
+	#elif cleft:
+		#steering = 9 * speed_multiplier
+		#engine_force = 100 * speed_multiplier
+	#elif cright:
+		#steering = -9 * speed_multiplier
+		#engine_force = 100 * speed_multiplier
+	#elif left:
+		#steering = 3 * speed_multiplier
+		#engine_force = 70 * speed_multiplier
+	#elif right:
+		#steering = -3 * speed_multiplier
+		#engine_force = 70 * speed_multiplier
+	#else:
+		#steering = 0 * speed_multiplier
+
+func _on_target_timer_timeout() -> void:
+	target_update()
+	$TargetTimer.wait_time = 0.4 + randf_range(-0.09, 0.09)
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_82ayb"]
+size = Vector3(1, 0.42281, 1.71842)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wyywi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mckr2"]
+atlas = ExtResource("5")
+region = Rect2(0, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cu6n2"]
+atlas = ExtResource("5")
+region = Rect2(200, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idw84"]
+atlas = ExtResource("5")
+region = Rect2(400, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jr3by"]
+atlas = ExtResource("5")
+region = Rect2(600, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_otqp8"]
+atlas = ExtResource("5")
+region = Rect2(800, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sgna4"]
+atlas = ExtResource("5")
+region = Rect2(1000, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yrw10"]
+atlas = ExtResource("5")
+region = Rect2(1200, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_swpcf"]
+atlas = ExtResource("5")
+region = Rect2(1400, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2m4an"]
+atlas = ExtResource("5")
+region = Rect2(1600, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5bcaq"]
+atlas = ExtResource("5")
+region = Rect2(1800, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ig1cg"]
+atlas = ExtResource("5")
+region = Rect2(2000, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ngw1e"]
+atlas = ExtResource("5")
+region = Rect2(2200, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ecm48"]
+atlas = ExtResource("5")
+region = Rect2(2400, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w5xjb"]
+atlas = ExtResource("5")
+region = Rect2(2600, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ogd5d"]
+atlas = ExtResource("5")
+region = Rect2(2800, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yxr8k"]
+atlas = ExtResource("5")
+region = Rect2(3000, 0, 200, 282)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xcn1b"]
+atlas = ExtResource("5")
+region = Rect2(3200, 0, 200, 282)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sxx3n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mckr2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cu6n2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idw84")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jr3by")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_otqp8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sgna4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yrw10")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_swpcf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2m4an")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5bcaq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ig1cg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ngw1e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ecm48")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w5xjb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ogd5d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yxr8k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xcn1b")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"default",
+"speed": 20.0
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mckr2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_p23d2"]
+
+[sub_resource type="GDScript" id="GDScript_wyywi"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_wyywi"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wyywi"]
+properties/0/path = NodePath("VehicleBody3D:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("VehicleBody3D:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("VehicleBody3D/sheep/Label3D:text")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("VehicleBody3D/sheep/Label3D/Label3D2:text")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+
+[node name="Node3D" type="Node3D"]
+script = SubResource("GDScript_ol8a7")
+
+[node name="VehicleBody3D" type="VehicleBody3D" parent="."]
+mass = 30.0
+script = SubResource("GDScript_q5qcx")
+
+[node name="sheep" parent="VehicleBody3D" instance=ExtResource("1_du0kp")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.0158744, -0.521821, 0.932096)
+
+[node name="Crown" parent="VehicleBody3D/sheep" instance=ExtResource("2_wyywi")]
+
+[node name="Label3D" type="Label3D" parent="VehicleBody3D/sheep"]
+transform = Transform3D(-3.36011e-08, 0, 1, 0, 0.561602, 0, -0.768704, 0, -4.37114e-08, 0.626516, 1.21547, 1.30486)
+pixel_size = 0.016
+shaded = true
+modulate = Color(0.180575, 1, 0.99993, 1)
+text = "52"
+script = ExtResource("3")
+
+[node name="Label3D2" type="Label3D" parent="VehicleBody3D/sheep/Label3D"]
+transform = Transform3D(-1, 0, 1.13728e-07, 0, 1, 0, -6.72022e-08, 0, -1, 2.08616e-07, 0, -1.25202)
+pixel_size = 0.016
+shaded = true
+modulate = Color(0.180575, 1, 0.99993, 1)
+text = "52"
+
+[node name="crown_mount" type="Node3D" parent="VehicleBody3D/sheep"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.77827, 0)
+script = ExtResource("3_f0x55")
+
+[node name="DistLabel" type="Label3D" parent="VehicleBody3D/sheep"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.31323e-08, 2.07533, 1.04397)
+visible = false
+billboard = 1
+text = "text"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VehicleBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.164907, -0.111954)
+shape = SubResource("BoxShape3D_82ayb")
+
+[node name="front_left_wheel" type="VehicleWheel3D" parent="VehicleBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.674803, -0.205165, 0.747582)
+use_as_traction = true
+wheel_radius = 0.4
+wheel_friction_slip = 100.0
+suspension_stiffness = 50.0
+suspension_max_force = 60000.0
+damping_compression = 1.9
+damping_relaxation = 2.0
+
+[node name="back_left_wheel" type="VehicleWheel3D" parent="VehicleBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.674803, -0.205165, -0.921626)
+use_as_steering = true
+wheel_radius = 0.4
+wheel_friction_slip = 100.0
+suspension_stiffness = 50.0
+suspension_max_force = 60000.0
+damping_compression = 1.9
+damping_relaxation = 2.0
+
+[node name="front_right_wheel" type="VehicleWheel3D" parent="VehicleBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.733593, -0.205165, 0.747582)
+use_as_traction = true
+wheel_radius = 0.4
+wheel_friction_slip = 100.0
+suspension_stiffness = 50.0
+suspension_max_force = 60000.0
+damping_compression = 1.9
+damping_relaxation = 2.0
+
+[node name="back_right_wheel" type="VehicleWheel3D" parent="VehicleBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.733593, -0.205165, -0.921626)
+use_as_steering = true
+wheel_radius = 0.4
+wheel_friction_slip = 100.0
+suspension_stiffness = 50.0
+suspension_max_force = 60000.0
+damping_compression = 1.9
+damping_relaxation = 2.0
+
+[node name="detect_dead" type="ShapeCast3D" parent="VehicleBody3D"]
+transform = Transform3D(0.95, 0, 0, 0, 0.22, 0, 0, 0, 2.742, 0.003, 1.44, -0.00270939)
+shape = SubResource("BoxShape3D_wyywi")
+script = ExtResource("3_idw84")
+
+[node name="Explode" type="AudioStreamPlayer3D" parent="VehicleBody3D"]
+stream = ExtResource("4")
+volume_db = -13.0
+pitch_scale = 1.46
+max_distance = 423.72
+panning_strength = 1.43
+doppler_tracking = 2
+
+[node name="explosion" type="AnimatedSprite3D" parent="VehicleBody3D"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+billboard = 1
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_sxx3n")
+
+[node name="Bleat" type="AudioStreamPlayer3D" parent="VehicleBody3D"]
+stream = ExtResource("6")
+volume_db = -15.909
+max_db = 0.665
+max_distance = 31.03
+doppler_tracking = 2
+
+[node name="detect_sheep" type="ShapeCast3D" parent="VehicleBody3D"]
+transform = Transform3D(-1.34152, 0, -2.47216e-07, 0, 1.27566, 0, 1.17279e-07, 0, -2.82781, 0.00803272, 1.92772, -0.0757913)
+shape = SubResource("BoxShape3D_mckr2")
+script = ExtResource("6_cu6n2")
+
+[node name="Node3D" type="Node3D" parent="VehicleBody3D"]
+
+[node name="detect_sight" type="ShapeCast3D" parent="VehicleBody3D"]
+transform = Transform3D(30.4092, 0, 0, 0, 1, 0, 0, 0, 26.9969, 0, 1.39902, 2.17215)
+shape = SubResource("BoxShape3D_p23d2")
+script = SubResource("GDScript_wyywi")
+
+[node name="targetcube" type="MeshInstance3D" parent="VehicleBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05811, 0.704883, 0)
+mesh = SubResource("BoxMesh_wyywi")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="VehicleBody3D"]
+
+[node name="TargetTimer" type="Timer" parent="VehicleBody3D"]
+process_callback = 0
+wait_time = 0.2
+autostart = true
+
+[node name="Baah" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_wyywi")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="."]
+
+[connection signal="timeout" from="VehicleBody3D/TargetTimer" to="VehicleBody3D" method="_on_target_timer_timeout"]
+[connection signal="timeout" from="Baah" to="." method="_on_timer_timeout"]

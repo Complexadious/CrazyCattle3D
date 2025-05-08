@@ -1,0 +1,532 @@
+[gd_scene load_steps=21 format=3 uid="uid://cq2bogrtha2ng"]
+
+[ext_resource type="Script" uid="uid://cf5chahieotvp" path="res://cc3d/code/menu/options/gd/options.gd" id="1_1r6y4"]
+[ext_resource type="FontFile" uid="uid://cvvi6o8v4r7dh" path="res://cc3d/assets/optimized/menu/_shared/fonts/ariblk.ttf" id="2_p3rf8"]
+[ext_resource type="Script" uid="uid://dphjd415e6mu1" path="res://cc3d/code/menu/main_menu/gd/menu_title_richtext.gd" id="3_hujns"]
+[ext_resource type="Texture2D" uid="uid://c7jcrpe8n6228" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/options.png" id="4_r12ci"]
+[ext_resource type="Texture2D" uid="uid://dx11833n71gqk" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/crazy_icon.png" id="5_5gn8m"]
+[ext_resource type="Texture2D" uid="uid://clg4mk0gj15wb" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/handle.png" id="6_2lufi"]
+[ext_resource type="Texture2D" uid="uid://ciby07ecbmnm2" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/yes.png" id="7_6f2lp"]
+[ext_resource type="Texture2D" uid="uid://2h42e4tljyiq" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/no.png" id="8_fi313"]
+[ext_resource type="AudioStream" uid="uid://cxh3r6eqs5ymw" path="res://cc3d/assets/optimized/menu/_shared/sounds/options_volumetest.mp3" id="9_27m7n"]
+[ext_resource type="AudioStream" uid="uid://bw8dabod042is" path="res://cc3d/assets/optimized/menu/_shared/sounds/baa.mp3" id="10_0q7iy"]
+[ext_resource type="AudioStream" uid="uid://b4ysnjsshn364" path="res://cc3d/assets/optimized/menu/_shared/sounds/uihover.mp3" id="11_q3xdc"]
+[ext_resource type="AudioStream" uid="uid://3e6asid2bfxh" path="res://cc3d/assets/optimized/menu/_shared/sounds/uipress.mp3" id="12_k6tpw"]
+[ext_resource type="AudioStream" uid="uid://dpme8t701ycho" path="res://cc3d/assets/optimized/menu/_shared/sounds/uirelease.mp3" id="13_2oy6a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vmi34"]
+bg_color = Color(0.890196, 0.890196, 0.890196, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p8250"]
+content_margin_left = 5.0
+bg_color = Color(0.892034, 0.892034, 0.892034, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_0kfld"]
+color = Color(0.29219, 0.29219, 0.29219, 1)
+grow_end = 0.0
+thickness = 3
+
+[sub_resource type="Theme" id="Theme_w5qgn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1c6y6"]
+
+[sub_resource type="Theme" id="Theme_51314"]
+default_font = ExtResource("2_p3rf8")
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0.545924, 0.934453, 1)
+Button/colors/font_hover_pressed_color = Color(0.0536234, 0, 0.872918, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0.160392, 0.185003, 1, 1)
+Button/font_sizes/font_size = 12
+Button/fonts/font = ExtResource("2_p3rf8")
+Panel/styles/panel = SubResource("StyleBoxEmpty_1c6y6")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wq7h2"]
+
+[node name="Options" type="Node2D"]
+position = Vector2(319, 240)
+script = ExtResource("1_1r6y4")
+metadata/_custom_type_script = "uid://ckalqlqpwqpyl"
+
+[node name="MenuTitle" type="RichTextLabel" parent="."]
+anchors_preset = -1
+anchor_right = 0.309375
+anchor_bottom = 0.03125
+offset_left = -206.0
+offset_top = -106.0
+offset_right = -156.0
+offset_bottom = -91.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 22
+text = "MenuTitle"
+scroll_active = false
+script = ExtResource("3_hujns")
+metadata/_edit_use_anchors_ = true
+
+[node name="bg" type="Sprite2D" parent="."]
+texture = ExtResource("4_r12ci")
+
+[node name="icon" type="TextureRect" parent="."]
+offset_left = 192.0
+offset_top = -176.0
+offset_right = 281.0
+offset_bottom = -87.0
+texture = ExtResource("5_5gn8m")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Name" type="LineEdit" parent="."]
+offset_left = -242.0
+offset_top = -44.0
+offset_right = -134.0
+offset_bottom = -18.0
+scale = Vector2(1.32, 1.32)
+theme_override_colors/caret_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0.253238, 0.253238, 0.253238, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("2_p3rf8")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/focus = SubResource("StyleBoxFlat_vmi34")
+theme_override_styles/normal = SubResource("StyleBoxFlat_p8250")
+text = "u"
+placeholder_text = "Name"
+context_menu_enabled = false
+emoji_menu_enabled = false
+virtual_keyboard_enabled = false
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+caret_blink = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Master" type="HSlider" parent="."]
+offset_left = -242.0
+offset_top = 33.0
+offset_right = -105.0
+offset_bottom = 49.0
+focus_mode = 0
+theme_override_icons/grabber = ExtResource("6_2lufi")
+theme_override_icons/grabber_highlight = ExtResource("6_2lufi")
+theme_override_icons/grabber_disabled = ExtResource("6_2lufi")
+theme_override_styles/slider = SubResource("StyleBoxLine_0kfld")
+min_value = -72.0
+max_value = 0.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Music" type="HSlider" parent="."]
+offset_left = -242.0
+offset_top = 69.0
+offset_right = -105.0
+offset_bottom = 85.0
+focus_mode = 0
+theme = SubResource("Theme_w5qgn")
+theme_override_icons/grabber = ExtResource("6_2lufi")
+theme_override_icons/grabber_highlight = ExtResource("6_2lufi")
+theme_override_icons/grabber_disabled = ExtResource("6_2lufi")
+theme_override_styles/slider = SubResource("StyleBoxLine_0kfld")
+min_value = -72.0
+max_value = 0.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Fullscreen" type="CheckBox" parent="."]
+offset_left = -126.0
+offset_top = -10.0
+offset_right = -86.0
+offset_bottom = 30.0
+scale = Vector2(0.679999, 0.679999)
+focus_mode = 0
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 0)
+theme_override_icons/checked = ExtResource("7_6f2lp")
+theme_override_icons/unchecked = ExtResource("8_fi313")
+metadata/_edit_use_anchors_ = true
+
+[node name="Save" type="Button" parent="."]
+texture_filter = 2
+offset_left = -119.0
+offset_top = 144.0
+offset_right = -39.0
+offset_bottom = 162.0
+scale = Vector2(1.52, 1.52)
+focus_mode = 0
+theme = SubResource("Theme_51314")
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("2_p3rf8")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/focus = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_wq7h2")
+text = "Save"
+alignment = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Save2" type="Button" parent="."]
+texture_filter = 2
+offset_left = 121.0
+offset_top = 112.0
+offset_right = 223.0
+offset_bottom = 148.0
+scale = Vector2(1.16, 1.16)
+focus_mode = 0
+theme = SubResource("Theme_51314")
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("2_p3rf8")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/focus = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_wq7h2")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_wq7h2")
+text = "Reset
+Progress"
+metadata/_edit_use_anchors_ = true
+
+[node name="OptionsVolumetest" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_27m7n")
+volume_db = -16.0
+autoplay = true
+bus = &"Music"
+
+[node name="Baa" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_0q7iy")
+volume_db = -10.0
+
+[node name="Uihover" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_q3xdc")
+volume_db = -10.0
+mix_target = 2
+max_polyphony = 6
+
+[node name="Uipress" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_k6tpw")
+volume_db = -10.0
+mix_target = 2
+
+[node name="Uirelease" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_2oy6a")
+volume_db = -10.0
+mix_target = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = -242.0
+offset_top = 14.0
+offset_right = -58.0
+offset_bottom = 31.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 11
+text = "Master Volume"
+fit_content = true
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="."]
+offset_left = -242.0
+offset_top = -5.0
+offset_right = -125.0
+offset_bottom = 12.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 11
+text = "Toggle Fullscreen"
+fit_content = true
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+offset_left = -242.0
+offset_top = 50.0
+offset_right = -58.0
+offset_bottom = 67.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 11
+text = "Music Volume"
+fit_content = true
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Lighting" type="CheckBox" parent="."]
+offset_left = 192.0
+offset_top = -45.0
+offset_right = 232.0
+offset_bottom = -5.0
+scale = Vector2(0.679999, 0.679999)
+focus_mode = 0
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 0)
+theme_override_icons/checked = ExtResource("7_6f2lp")
+theme_override_icons/unchecked = ExtResource("8_fi313")
+metadata/_edit_use_anchors_ = true
+
+[node name="lightingtxt" type="RichTextLabel" parent="."]
+offset_left = 76.0
+offset_top = -39.0
+offset_right = 196.0
+offset_bottom = -22.0
+tooltip_text = "Toggle enhanced lighting"
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 11
+text = "Toggle Lighting"
+fit_content = true
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="PhysicsCulling" type="CheckBox" parent="."]
+offset_left = 33.0
+offset_top = -46.0
+offset_right = 73.0
+offset_bottom = -6.0
+scale = Vector2(0.679999, 0.679999)
+focus_mode = 0
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 0)
+theme_override_icons/checked = ExtResource("7_6f2lp")
+theme_override_icons/unchecked = ExtResource("8_fi313")
+metadata/_edit_use_anchors_ = true
+
+[node name="PhysicsCullingSlider" type="HSlider" parent="."]
+offset_left = -83.0
+offset_top = -5.0
+offset_right = 54.0
+offset_bottom = 11.0
+focus_mode = 0
+theme_override_icons/grabber = ExtResource("6_2lufi")
+theme_override_icons/grabber_highlight = ExtResource("6_2lufi")
+theme_override_icons/grabber_disabled = ExtResource("6_2lufi")
+theme_override_styles/slider = SubResource("StyleBoxLine_0kfld")
+min_value = 1.0
+max_value = 500.0
+value = 100.0
+tick_count = 20
+ticks_on_borders = true
+metadata/_edit_use_anchors_ = true
+
+[node name="count" type="RichTextLabel" parent="PhysicsCullingSlider"]
+layout_mode = 0
+offset_left = 51.0
+offset_top = 14.0
+offset_right = 81.0
+offset_bottom = 32.0
+tooltip_text = "Enable to cull physics processing for far-away sheep (Dramatic Performance Increase)"
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 10
+text = "(0)"
+scroll_active = false
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="."]
+offset_left = -83.0
+offset_top = -21.0
+offset_right = 53.0
+offset_bottom = -4.0
+tooltip_text = "Maximum amount of sheep to process at a time"
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 11
+text = "Sheep to Process"
+fit_content = true
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="physicscullingtxt" type="RichTextLabel" parent="."]
+offset_left = -83.0
+offset_top = -40.0
+offset_right = 37.0
+offset_bottom = -23.0
+tooltip_text = "Enable to cull physics processing for far-away sheep (Dramatic Performance Increase)"
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 11
+text = "Physics Culling"
+fit_content = true
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="PhysicsSphere" type="CheckBox" parent="."]
+offset_left = 33.0
+offset_top = 26.0
+offset_right = 73.0
+offset_bottom = 66.0
+scale = Vector2(0.679999, 0.679999)
+focus_mode = 0
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 0)
+theme_override_icons/checked = ExtResource("7_6f2lp")
+theme_override_icons/unchecked = ExtResource("8_fi313")
+metadata/_edit_use_anchors_ = true
+
+[node name="physicscullingtxt2" type="RichTextLabel" parent="."]
+offset_left = -83.0
+offset_top = 32.0
+offset_right = 42.0
+offset_bottom = 49.0
+tooltip_text = "Show sphere in which sheep process inside"
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 11
+text = "Show Cull Sphere"
+fit_content = true
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="physics_cat" type="RichTextLabel" parent="."]
+offset_left = -31.0
+offset_top = -63.0
+offset_right = 12.0
+offset_bottom = -48.0
+tooltip_text = "Toggle enhanced lighting"
+theme_override_colors/default_color = Color(0.299547, 0.299547, 0.299547, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 10
+text = "Physics"
+fit_content = true
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="general_cat" type="RichTextLabel" parent="."]
+offset_left = -181.0
+offset_top = -63.0
+offset_right = -138.0
+offset_bottom = -48.0
+tooltip_text = "Toggle enhanced lighting"
+theme_override_colors/default_color = Color(0.299547, 0.299547, 0.299547, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 10
+text = "General"
+fit_content = true
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Graphics" type="RichTextLabel" parent="."]
+offset_left = 97.0
+offset_top = -63.0
+offset_right = 147.0
+offset_bottom = -48.0
+tooltip_text = "Toggle enhanced lighting"
+theme_override_colors/default_color = Color(0.299547, 0.299547, 0.299547, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 10
+text = "Graphics
+"
+fit_content = true
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="DebugRendering" type="CheckBox" parent="."]
+offset_left = -126.0
+offset_top = 82.0
+offset_right = -86.0
+offset_bottom = 122.0
+scale = Vector2(0.679999, 0.679999)
+focus_mode = 0
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 0)
+theme_override_icons/checked = ExtResource("7_6f2lp")
+theme_override_icons/unchecked = ExtResource("8_fi313")
+metadata/_edit_use_anchors_ = true
+
+[node name="RichTextLabel5" type="RichTextLabel" parent="."]
+offset_left = -242.0
+offset_top = 87.0
+offset_right = -125.0
+offset_bottom = 104.0
+tooltip_text = "Enables debug rendering for certain tests"
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 11
+text = "Debug Rendering"
+fit_content = true
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="SheepTargetting" type="CheckBox" parent="."]
+offset_left = 32.0
+offset_top = 81.0
+offset_right = 72.0
+offset_bottom = 121.0
+scale = Vector2(0.679999, 0.679999)
+focus_mode = 0
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 0)
+theme_override_icons/checked = ExtResource("7_6f2lp")
+theme_override_icons/unchecked = ExtResource("8_fi313")
+metadata/_edit_use_anchors_ = true
+
+[node name="sheeptargettingtxt" type="RichTextLabel" parent="."]
+offset_left = -84.0
+offset_top = 87.0
+offset_right = 41.0
+offset_bottom = 104.0
+tooltip_text = "Make Sheep Target You"
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 11
+text = "Sheep Targetting"
+fit_content = true
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[node name="physics_cat2" type="RichTextLabel" parent="."]
+offset_left = -37.0
+offset_top = 69.0
+offset_right = 18.0
+offset_bottom = 84.0
+tooltip_text = "Toggle enhanced lighting"
+theme_override_colors/default_color = Color(0.299547, 0.299547, 0.299547, 1)
+theme_override_fonts/normal_font = ExtResource("2_p3rf8")
+theme_override_font_sizes/normal_font_size = 10
+text = "Gameplay"
+fit_content = true
+scroll_active = false
+metadata/_edit_use_anchors_ = true
+
+[connection signal="text_changed" from="Name" to="." method="_on_name_text_changed"]
+[connection signal="drag_ended" from="Master" to="." method="_on_master_drag_ended"]
+[connection signal="value_changed" from="Master" to="." method="_on_master_value_changed"]
+[connection signal="value_changed" from="Music" to="." method="_on_music_value_changed"]
+[connection signal="toggled" from="Fullscreen" to="." method="_on_fullscreen_toggled"]
+[connection signal="button_down" from="Save" to="." method="_on_save_button_down"]
+[connection signal="button_up" from="Save" to="." method="_on_save_button_up"]
+[connection signal="mouse_entered" from="Save" to="." method="_on_save_mouse_entered"]
+[connection signal="pressed" from="Save" to="." method="_on_save_pressed"]
+[connection signal="button_down" from="Save2" to="." method="_on_save_2_button_down"]
+[connection signal="button_up" from="Save2" to="." method="_on_save_2_button_up"]
+[connection signal="mouse_entered" from="Save2" to="." method="_on_save_2_mouse_entered"]
+[connection signal="pressed" from="Save2" to="." method="_on_save_2_pressed"]
+[connection signal="toggled" from="Lighting" to="." method="_on_lighting_toggled"]
+[connection signal="toggled" from="PhysicsCulling" to="." method="_on_physics_culling_toggled"]
+[connection signal="drag_ended" from="PhysicsCullingSlider" to="." method="_on_physics_drag_ended"]
+[connection signal="value_changed" from="PhysicsCullingSlider" to="." method="_on_physics_value_changed"]
+[connection signal="toggled" from="PhysicsSphere" to="." method="_on_physics_sphere_toggled"]
+[connection signal="toggled" from="DebugRendering" to="." method="_on_debug_rendering_toggled"]
+[connection signal="toggled" from="SheepTargetting" to="." method="_on_sheep_targetting_toggled"]

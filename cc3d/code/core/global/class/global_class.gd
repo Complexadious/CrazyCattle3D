@@ -101,7 +101,7 @@ func onLevelLoad(ref):
 			print("onLevelLoad: Error managing enhanced lighting, 'WorldEnvironment.environment' not found!")
 	
 	var y = Global.WorldRef.get_node("Player").global_position.y
-	var fpos = Global.WorldRef.get_node("fencircular").global_position
+	var fpos = Global.WorldRef.get_node("NavigationRegion3D").get_node("fencircular").global_position
 	var center = Vector3(fpos.x, y, fpos.z)
 	CC3D.spawn_sheep_in_circle(Global.currentlevelmaxsheep, center, Global.currentlevelfenceradius)
 	
@@ -123,6 +123,6 @@ var sheep_spawn_center = Vector3.ZERO
 
 var root = null
 
-var cc3d_game_version = "v0.1.1a (Dev/"+str(OS.get_name())+")"
+var cc3d_game_version = str(ProjectSettings.get_setting("application/config/version")) + " (Dev/"+str(OS.get_name())+")"
 
 #var multi = MultiplayerHandler

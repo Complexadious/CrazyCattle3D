@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://dxt6cdxnpvbdb"]
 
-[ext_resource type="PackedScene" uid="uid://vowcqkf1j21j" path="res://cc3d/assets/optimized/entity/sheep/models/sheep.glb" id="1_prb05"]
+[ext_resource type="PackedScene" uid="uid://bj2vv73ach3th" path="res://cc3d/assets/optimized/entity/sheep/models/sheep.glb" id="1_prb05"]
 
 [node name="sheep" instance=ExtResource("1_prb05")]
 
 [node name="Cube" parent="." index="0"]
-lod_bias = 0.612
+lod_bias = 0.5

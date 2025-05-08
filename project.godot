@@ -11,11 +11,13 @@ config_version=5
 [application]
 
 config/name="CrazyCattle3D"
+config/description="GOTY (Custom version by Complexadious)"
+config/version="v0.1.1a"
 run/main_scene="uid://dnqibaldkqfi2"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/image="uid://big08kqdoi028"
-config/icon="uid://dx11833n71gqk"
+boot_splash/image="uid://bg7t76wdqyk1o"
+config/icon="uid://bxnmeeuqurw4k"
 config/windows_native_icon="res://cc3d/assets/optimized/menu/_shared/textures/ui/crazyicon.ico"
 boot_splash/minimum_display_time=3000
 
@@ -36,10 +38,13 @@ Registry="*res://cc3d/code/core/registry/class/registry_class.gd"
 window/size/viewport_width=640
 window/size/viewport_height=480
 window/stretch/mode="viewport"
-window/stretch/aspect="ignore"
 window/vsync/vsync_mode=0
-mouse_cursor/custom_image="uid://0fls4gdmimmo"
+mouse_cursor/custom_image="uid://xi7uekuu0r5q"
 mouse_cursor/custom_image_hotspot=Vector2(16, 0)
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/virtual_joystick/plugin.cfg")
 
 [global_group]
 

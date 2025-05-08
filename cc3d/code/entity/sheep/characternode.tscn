@@ -5,9 +5,9 @@
 [ext_resource type="Script" uid="uid://c6ax1aatog7is" path="res://cc3d/code/entity/sheep/gd/num_label.gd" id="3"]
 [ext_resource type="Script" uid="uid://5gf0sit3fwde" path="res://cc3d/code/entity/sheep/gd/crown_mount.gd" id="3_f0x55"]
 [ext_resource type="Script" uid="uid://c4366oumxkkxv" path="res://cc3d/code/entity/sheep/gd/detect_dead.gd" id="3_idw84"]
-[ext_resource type="AudioStream" uid="uid://cudi0vlioxdp7" path="res://cc3d/assets/optimized/menu/_shared/sounds/explode.mp3" id="4"]
-[ext_resource type="Texture2D" uid="uid://h0ju080swc63" path="res://cc3d/assets/optimized/menu/_shared/textures/explodesprite/explosion-Sheet.png" id="5"]
-[ext_resource type="AudioStream" uid="uid://bw8dabod042is" path="res://cc3d/assets/optimized/menu/_shared/sounds/baa.mp3" id="6"]
+[ext_resource type="AudioStream" uid="uid://dykjwei7srmy5" path="res://cc3d/assets/optimized/menu/_shared/sounds/explode.mp3" id="4"]
+[ext_resource type="Texture2D" uid="uid://bugaowpehky8r" path="res://cc3d/assets/optimized/menu/_shared/textures/explodesprite/explosion-Sheet.png" id="5"]
+[ext_resource type="AudioStream" uid="uid://d16yn6b3cqp1u" path="res://cc3d/assets/optimized/menu/_shared/sounds/baa.mp3" id="6"]
 [ext_resource type="Script" uid="uid://b404dgfmmima7" path="res://cc3d/code/entity/sheep/gd/detect_sheep.gd" id="6_cu6n2"]
 
 [sub_resource type="GDScript" id="GDScript_ol8a7"]
@@ -88,7 +88,7 @@ func _on_timer_timeout() -> void:
 resource_name = "npcscript"
 script/source = "extends VehicleBody3D
 
-var speed_multiplier : float = 2.0
+var speed_multiplier : float = 1.75
 
 var ang: float
 var colliding: bool
@@ -100,20 +100,14 @@ var current_rot_y: float = 0.0
 var desired_rot_y: float = 0.0
 var lerp_intensity: float = 0.0
 
-var charge: bool
-var left: bool
-var right: bool
-var cleft: bool
-var cright: bool
-var ccleft: bool
-var ccright: bool
-
 var ang_deg : float = 100.0
 var lerp_spd : float = 0.1
 
 var forced_target = null
 var p = null
 var close_dist: int = 10
+
+var dist_from_player: float = 100.0
 
 @onready var nav_agent = $NavigationAgent3D
 
@@ -128,28 +122,14 @@ func _ready() -> void:
 
 func target_update() -> void:
 	if (p.isdead || sleeping):
-		pass
+		return
 	
-#	if (!p.isdead && ($sheep/Label3D.text == \"2\")):
-#		forced_target = Global.WorldRef.get_node_or_null(\"Player\")
+	if (!p.isdead && ($sheep/Label3D.text == \"2\")):
+		forced_target = Global.WorldRef.get_node_or_null(\"Player\")
 	
 	colliding = detect.is_colliding() && (detect.get_collider(0) is VehicleBody3D)
 	closest_sheep = null
-	
-	lerp_spd = randf_range(0.03, 0.08)
-	
-	#if colliding && forced_target == null:
-		#var closest_dist = INF
-		#for collider_id in range(detect.get_collision_count()):
-			#var collider = detect.get_collider(collider_id)
-			#if (collider != self) && ((collider is VehicleBody3D)):
-				#var dist = global_position.distance_squared_to(collider.global_position)
-				#if (dist < closest_dist):
-					#closest_dist = dist
-					#closest_sheep = collider
-		#tdist = sqrt(closest_dist)
-	#else:
-		# point towards closest sheep in the map or target
+
 	var closest_dist = INF
 	var targets: Array
 	if forced_target:
@@ -164,6 +144,11 @@ func target_update() -> void:
 			if (dist < closest_dist):
 				closest_dist = dist
 				closest_sheep = collider
+	
+	var plr = Global.WorldRef.get_node_or_null(\"Player\")
+	if (plr != null):
+		dist_from_player = global_position.distance_squared_to(plr.get_node(\"VehicleBody3D\").global_position)
+		lerp_spd = randf_range(0.005, 0.05) + clamp(abs(($sheep.global_rotation.x) / 2), 0, 0.25)
 	tdist = sqrt(closest_dist)
 	
 	if (closest_sheep != null):
@@ -173,7 +158,7 @@ func _physics_process(delta):
 	var t = Global.enable_sheep_targetting
 	# tdist = target distance from current pos (at most pos from timerdur sec ago, very close)
 	var pos = global_position
-	var lim = 15
+	var lim = 5
 
 	current_rot_y = global_rotation.y
 
@@ -183,83 +168,34 @@ func _physics_process(delta):
 		var forward = -global_transform.basis.z.normalized()
 		var angle_rad = forward.signed_angle_to(to_target, Vector3.UP)
 		ang_deg = rad_to_deg(angle_rad)
-
-		# Smooth turning using global Y rotation
+		
+		# if staring right at target, target position is them, only if close y
+		if (abs(closest_sheep.global_position.y - global_position.y) < 0.5) && (abs(ang_deg) > lim):
+			tpos = closest_sheep.global_position
+			to_target = (tpos - global_position).normalized()
+			
 		desired_rot_y = atan2(to_target.x, to_target.z)  # This is the global angle to face the target
-
-		# Interpolate rotation towards the desired one
-
-		# Target cube position (debug visual)
 		if Global.debug_rendering:
 			var cube = $targetcube
 			cube.global_position = tpos
 
-		## Turning flags if needed (optional logic for force/steering)
-		#var tdist = global_position.distance_to(tpos)
-		#var close_dist = 10
-#
-		#if abs(ang_deg) < lim:
-			#charge = true
-			#
-			#ccright = false
-			#cright = false
-			#right = false
-			#
-			#ccleft = false
-			#cleft = false
-			#left = false
-		#elif ang_deg > lim:
-			#ccright = (tdist < (close_dist / 2))
-			#cright = (tdist < close_dist)
-			#right = true
-			#
-			#ccleft = false
-			#cleft = false
-			#left = false
-		#elif ang_deg < -lim:
-			#ccleft = (tdist < (close_dist / 2))
-			#cleft = (tdist < close_dist)
-			#left = true
-			#
-			#ccright = false
-			#cright = false
-			#right = false
-			#
-		#if (ccright || ccleft):
-			#lerp_intensity = randi_range(100, 50)
-		#
 		global_rotation.y = lerp_angle(global_rotation.y, desired_rot_y, lerp_spd)
-#
 	steering = 0 * speed_multiplier
-	engine_force = (100 / (abs(360 - ang_deg) / randi_range(200, 300))) * speed_multiplier # slow down when turning
-#
-	#if charge:
-		#steering = 0 * speed_multiplier
-		#engine_force = 200 * speed_multiplier
-	#elif ccleft:
-		#steering = 9 * speed_multiplier
-		#engine_force = 150 * speed_multiplier
-	#elif ccright:
-		#steering = -9 * speed_multiplier
-		#engine_force = 150 * speed_multiplier
-	#elif cleft:
-		#steering = 9 * speed_multiplier
-		#engine_force = 100 * speed_multiplier
-	#elif cright:
-		#steering = -9 * speed_multiplier
-		#engine_force = 100 * speed_multiplier
-	#elif left:
-		#steering = 3 * speed_multiplier
-		#engine_force = 70 * speed_multiplier
-	#elif right:
-		#steering = -3 * speed_multiplier
-		#engine_force = 70 * speed_multiplier
-	#else:
-		#steering = 0 * speed_multiplier
+	if !p.isdead:
+		engine_force = clamp((100 / (abs(360 - ang_deg) / randi_range(200, 400))) - (global_rotation.x * 100), 0, 1000) * speed_multiplier # slow down when turning
 
 func _on_target_timer_timeout() -> void:
 	target_update()
-	$TargetTimer.wait_time = 0.4 + randf_range(-0.09, 0.09)
+	var min = 0.22
+	var max = 1
+	var climb_ang = 0.1
+	var stagger = 0.09
+	var t = clamp((dist_from_player / 1200), min, max)
+	if abs(global_rotation.x) > climb_ang:
+		t = min
+		stagger /= 2
+	t += randf_range(-stagger, stagger)
+	$TargetTimer.wait_time = t
 "
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_82ayb"]
@@ -422,7 +358,7 @@ properties/3/path = NodePath("VehicleBody3D/sheep/Label3D/Label3D2:text")
 properties/3/spawn = true
 properties/3/replication_mode = 1
 
-[node name="Node3D" type="Node3D"]
+[node name="EnemySheep" type="Node3D"]
 script = SubResource("GDScript_ol8a7")
 
 [node name="VehicleBody3D" type="VehicleBody3D" parent="."]

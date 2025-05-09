@@ -118,6 +118,12 @@ texture = ExtResource("8_mc7dh")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_0dwx2")
 
+[node name="WorldBackgroundAudio" type="Node" parent="."]
+script = ExtResource("7_uf6oe")
+songs = Array[AudioStream]([ExtResource("6_1top2")])
+bus = "Music"
+metadata/_custom_type_script = "uid://e0a7k7jsaox2"
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.262408, 0.964957, 0, -0.964957, -0.262408, -51.9623, 237.537, -160.766)
 shadow_enabled = true
@@ -126,14 +132,6 @@ shadow_normal_bias = 0.5
 shadow_reverse_cull_face = true
 shadow_blur = 5.0
 sky_mode = 1
-
-[node name="BackgroundAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_1top2")
-volume_db = -16.0
-autoplay = true
-bus = &"Music"
-script = ExtResource("7_uf6oe")
-metadata/_custom_type_script = "uid://e0a7k7jsaox2"
 
 [node name="Player" parent="." instance=ExtResource("4_1cm73")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.1371, 0.529594, -8.19333)

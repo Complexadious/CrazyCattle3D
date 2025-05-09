@@ -8,7 +8,7 @@ var fov : float
 func _ready():
 	Global.currentlevel = "new york city"
 	Global.currentlevelfenceradius = 60
-	Global.currentlevelmaxsheep = 1
+	Global.currentlevelmaxsheep = 75
 	Global.onLevelLoad($".")
 	env = $WorldEnvironment.environment
 		

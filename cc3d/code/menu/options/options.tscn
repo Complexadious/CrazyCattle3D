@@ -1,18 +1,19 @@
-[gd_scene load_steps=21 format=3 uid="uid://cq2bogrtha2ng"]
+[gd_scene load_steps=22 format=3 uid="uid://cq2bogrtha2ng"]
 
 [ext_resource type="Script" uid="uid://cf5chahieotvp" path="res://cc3d/code/menu/options/gd/options.gd" id="1_1r6y4"]
-[ext_resource type="FontFile" uid="uid://cvvi6o8v4r7dh" path="res://cc3d/assets/optimized/menu/_shared/fonts/ariblk.ttf" id="2_p3rf8"]
+[ext_resource type="FontFile" uid="uid://beh8yrtbekh7" path="res://cc3d/assets/optimized/menu/_shared/fonts/ariblk.ttf" id="2_p3rf8"]
 [ext_resource type="Script" uid="uid://dphjd415e6mu1" path="res://cc3d/code/menu/main_menu/gd/menu_title_richtext.gd" id="3_hujns"]
-[ext_resource type="Texture2D" uid="uid://c7jcrpe8n6228" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/options.png" id="4_r12ci"]
-[ext_resource type="Texture2D" uid="uid://dx11833n71gqk" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/crazy_icon.png" id="5_5gn8m"]
-[ext_resource type="Texture2D" uid="uid://clg4mk0gj15wb" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/handle.png" id="6_2lufi"]
-[ext_resource type="Texture2D" uid="uid://ciby07ecbmnm2" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/yes.png" id="7_6f2lp"]
-[ext_resource type="Texture2D" uid="uid://2h42e4tljyiq" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/no.png" id="8_fi313"]
-[ext_resource type="AudioStream" uid="uid://cxh3r6eqs5ymw" path="res://cc3d/assets/optimized/menu/_shared/sounds/options_volumetest.mp3" id="9_27m7n"]
-[ext_resource type="AudioStream" uid="uid://bw8dabod042is" path="res://cc3d/assets/optimized/menu/_shared/sounds/baa.mp3" id="10_0q7iy"]
-[ext_resource type="AudioStream" uid="uid://b4ysnjsshn364" path="res://cc3d/assets/optimized/menu/_shared/sounds/uihover.mp3" id="11_q3xdc"]
-[ext_resource type="AudioStream" uid="uid://3e6asid2bfxh" path="res://cc3d/assets/optimized/menu/_shared/sounds/uipress.mp3" id="12_k6tpw"]
-[ext_resource type="AudioStream" uid="uid://dpme8t701ycho" path="res://cc3d/assets/optimized/menu/_shared/sounds/uirelease.mp3" id="13_2oy6a"]
+[ext_resource type="Texture2D" uid="uid://b138uvp6507xl" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/options.png" id="4_r12ci"]
+[ext_resource type="Texture2D" uid="uid://bxnmeeuqurw4k" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/crazy_icon.png" id="5_5gn8m"]
+[ext_resource type="Texture2D" uid="uid://nirba660m47u" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/handle.png" id="6_2lufi"]
+[ext_resource type="Texture2D" uid="uid://c7jhbbewtsqoa" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/yes.png" id="7_6f2lp"]
+[ext_resource type="Texture2D" uid="uid://dn2dwmenrnik2" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/no.png" id="8_fi313"]
+[ext_resource type="AudioStream" uid="uid://b5m75vcj0fioi" path="res://cc3d/assets/optimized/menu/_shared/sounds/options_volumetest.mp3" id="9_27m7n"]
+[ext_resource type="Script" uid="uid://e0a7k7jsaox2" path="res://cc3d/code/core/menu/class/world_bg_sound_class.gd" id="9_p3rf8"]
+[ext_resource type="AudioStream" uid="uid://d16yn6b3cqp1u" path="res://cc3d/assets/optimized/menu/_shared/sounds/baa.mp3" id="10_0q7iy"]
+[ext_resource type="AudioStream" uid="uid://bkkm12ojliv7m" path="res://cc3d/assets/optimized/menu/_shared/sounds/uihover.mp3" id="11_q3xdc"]
+[ext_resource type="AudioStream" uid="uid://dkyyyuca1hpia" path="res://cc3d/assets/optimized/menu/_shared/sounds/uipress.mp3" id="12_k6tpw"]
+[ext_resource type="AudioStream" uid="uid://i11sch2k3g1x" path="res://cc3d/assets/optimized/menu/_shared/sounds/uirelease.mp3" id="13_2oy6a"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vmi34"]
 bg_color = Color(0.890196, 0.890196, 0.890196, 1)
@@ -212,11 +213,12 @@ text = "Reset
 Progress"
 metadata/_edit_use_anchors_ = true
 
-[node name="OptionsVolumetest" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("9_27m7n")
-volume_db = -16.0
-autoplay = true
-bus = &"Music"
+[node name="WorldBackgroundAudio" type="Node" parent="."]
+script = ExtResource("9_p3rf8")
+songs = Array[AudioStream]([ExtResource("9_27m7n")])
+autoplay = false
+bus = "Music"
+metadata/_custom_type_script = "uid://e0a7k7jsaox2"
 
 [node name="Baa" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_0q7iy")

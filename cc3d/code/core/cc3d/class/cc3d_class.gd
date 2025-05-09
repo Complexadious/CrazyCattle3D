@@ -10,13 +10,21 @@ var _type_colors = {
 }
 var _fallback_type_color = "gray"
 
+@export var screen_width: int = 640
+@export var screen_height: int = 480
+
 # Publicly accessible
-@export var path = {}
-@export var level : Node3D = null
-@export var menu : Node2D = null
+var path = {}
+var level : Node3D = null
+var menu : Node2D = null
 
 func _process(_delta):
 	_cached_timestamp = get_timestamp()
+	
+func set_render_resolution(width: int, height: int) -> void:
+	#ProjectSettings.set_setting("display/window/size/viewport_width", width)
+	#ProjectSettings.set_setting("display/window/size/viewport_height", height)
+	get_viewport().set
 
 static func get_timestamp() -> String:
 	var ts = Time.get_datetime_dict_from_system()

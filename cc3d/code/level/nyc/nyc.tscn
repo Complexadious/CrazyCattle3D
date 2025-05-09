@@ -3440,6 +3440,12 @@ texture = ExtResource("4_xfpfa")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_eujgh")
 
+[node name="WorldBackgroundAudio" type="Node" parent="."]
+script = ExtResource("4_m7on2")
+songs = Array[AudioStream]([ExtResource("3_m7on2")])
+bus = "Music"
+metadata/_custom_type_script = "uid://e0a7k7jsaox2"
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.681099, 0.552162, -0.480855, 0.0572191, 0.614586, 0.786772, 0.729952, -0.563384, 0.387, -3099.85, 4048.86, 3400.48)
 shadow_enabled = true
@@ -3448,14 +3454,6 @@ shadow_normal_bias = 0.5
 shadow_reverse_cull_face = true
 shadow_blur = 5.0
 sky_mode = 1
-
-[node name="BackgroundAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_m7on2")
-volume_db = -16.0
-autoplay = true
-bus = &"Music"
-script = ExtResource("4_m7on2")
-metadata/_custom_type_script = "uid://e0a7k7jsaox2"
 
 [node name="Player" parent="." instance=ExtResource("4_ed6b2")]
 editor_description = "Sheep

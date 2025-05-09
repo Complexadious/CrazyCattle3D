@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="CrazyCattle3D"
-config/description="GOTY (Custom version by Complexadious)"
-config/version="v0.1.1a"
+config/description="GOTY (Custom version by Complexadious, original game by Anna - https://4nn4t4t.itch.io/)"
+config/version="v0.1.1b"
 run/main_scene="uid://dnqibaldkqfi2"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)

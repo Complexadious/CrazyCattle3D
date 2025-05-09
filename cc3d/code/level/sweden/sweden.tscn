@@ -67,6 +67,12 @@ transform = Transform3D(4.15097, 0, 0, 0, 3.49015, 0, 0, 0, 4.15097, -7.90337, 2
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_0dwx2")
 
+[node name="WorldBackgroundAudio" type="Node" parent="."]
+script = ExtResource("3_ow067")
+songs = Array[AudioStream]([ExtResource("2_ow067")])
+bus = "Music"
+metadata/_custom_type_script = "uid://e0a7k7jsaox2"
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.75647, 0.422174, -0.499522, 0, 0.763762, 0.645498, 0.654028, -0.4883, 0.577763, -213.582, 100.426, 112.184)
 shadow_enabled = true
@@ -75,14 +81,6 @@ shadow_normal_bias = 0.5
 shadow_reverse_cull_face = true
 shadow_blur = 5.0
 sky_mode = 1
-
-[node name="BackgroundAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_ow067")
-volume_db = -16.0
-autoplay = true
-bus = &"Music"
-script = ExtResource("3_ow067")
-metadata/_custom_type_script = "uid://e0a7k7jsaox2"
 
 [node name="Player" parent="." instance=ExtResource("5_g47lf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.3636, 0.529598, -30.3559)

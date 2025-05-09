@@ -8,5 +8,6 @@ func _ready() -> void:
 		_log(msg, type, "_ready")
 
 	Global.root = self
+	CC3D.set_render_resolution(128, 128)
 	print("game start!")
 	CC3D.load_menu("main_menu") 

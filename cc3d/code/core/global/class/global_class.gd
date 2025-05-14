@@ -18,7 +18,7 @@ var currentlevel = ""
 
 var currentlevelfenceradius = 260
 
-var currentlevelmaxsheep = 60
+var currentlevelmaxsheep = 0
 
 var currentlevelminprocessingdist = 60 # set in options.gd & enable_physics_culling
 

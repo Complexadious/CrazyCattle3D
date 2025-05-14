@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://d8gnmkghjw4y"]
+[gd_scene load_steps=53 format=3 uid="uid://d8gnmkghjw4y"]
 
 [ext_resource type="Script" uid="uid://chi0wro6852wf" path="res://cc3d/code/entity/sheep/gd/vehicle_body_3d.gd" id="1"]
 [ext_resource type="Script" uid="uid://banxly3nima0g" path="res://cc3d/code/entity/sheep/gd/playernode.gd" id="1_13bao"]
@@ -25,6 +25,8 @@
 [ext_resource type="Script" uid="uid://jssubg04alog" path="res://cc3d/code/entity/sheep/gd/mobile_ui.gd" id="21_3aqrq"]
 [ext_resource type="Texture2D" uid="uid://clgg4iblysiv1" path="res://cc3d/assets/optimized/menu/_shared/textures/ui/mcpe_esc_icon.png" id="22_8p863"]
 [ext_resource type="Script" uid="uid://bqxyhodimgkro" path="res://cc3d/code/entity/sheep/gd/mobile_escape_button.gd" id="23_3aqrq"]
+[ext_resource type="Texture2D" uid="uid://btb0dymbgd78t" path="res://cc3d/assets/optimized/menu/95AB3402-135E-4295-8B4C-D383800AEF6C_1_102_o.jpeg" id="26_g712n"]
+[ext_resource type="Script" uid="uid://eqfp22wd7m2o" path="res://cc3d/code/entity/sheep/kaden.gd" id="27_egyy2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mckr2"]
 atlas = ExtResource("5")
@@ -517,6 +519,13 @@ theme_override_icons/icon = ExtResource("22_8p863")
 action_mode = 0
 button_mask = 7
 script = ExtResource("23_3aqrq")
+
+[node name="kaden" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(320, 240)
+scale = Vector2(0.347145, 0.338398)
+texture = ExtResource("26_g712n")
+script = ExtResource("27_egyy2")
 
 [connection signal="timeout" from="RefreshPhysicsCulling" to="." method="_on_refresh_physics_culling_timeout"]
 [connection signal="pressed" from="Mobile/Escape" to="Mobile/Escape" method="_on_pressed"]

@@ -12,6 +12,8 @@ var c = null
 var p = null
 var flip_camera := false
 
+var flyspeed: float = 1.0
+
 var cam_inital_x = -44
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -20,6 +22,11 @@ var cam_inital_x = -44
 var _tmp_pairs  : Array[Vector2] = []   # [ distance² , index ]
 var _tmp_sheep  : Array          = []   # Node references
 var _last_radius: float          = 0.0  # for the debug sphere
+
+var mom_max: float = 0.5
+var mom_dec_amt: float = 0.01
+var mom_front: float = 0.0
+var mom_side: float = 0.0
 
 @export var peer_id : int
 
@@ -109,7 +116,6 @@ func _input(event):
 	if event.is_action_pressed("fly"):
 		Global.fly = !Global.fly
 		$detect_ground / RichTextLabel.visible = Global.fly
-		$detect_ground / RichTextLabel.text = "Flying"
 	if event.is_action_pressed("test"):
 		var targets = Global.WorldRef.get_node("Sheep").get_children()
 		for sheep in targets:
@@ -139,12 +145,19 @@ func _input(event):
 	if rotating and event is InputEventMouseMotion:
 		$".".rotate_object_local(Vector3(0,1,0), -event.relative.x * mouse_sensitivity)
 		$".".rotate_object_local(Vector3(1,0,0), event.relative.y * mouse_sensitivity)
+	
 		#$".".rotate_y(-event.relative.x * mouse_sensitivity)
 #		$".".rotate_x(event.relative.y * mouse_sensitivity)
 
-	var flyspeed = 1
 	if Global.fly:
 		$".".freeze = true
+		if event.is_action_pressed("ui_text_scroll_up"):
+			flyspeed += 0.1
+			print("up")
+		elif event.is_action_pressed("ui_text_scroll_down"):
+			flyspeed -= 0.1
+			print("down")
+			
 		if event.is_action("forward"):
 			var d = $".".global_transform.basis.z
 			$".".global_position += d * flyspeed
@@ -159,6 +172,16 @@ func _input(event):
 			$".".global_position += d * flyspeed
 	else:
 		$".".freeze = false
+		
+	if is_airborne() && !Global.fly:
+		if event.is_action("forward"):
+			mom_front += mom_dec_amt
+		if event.is_action("back"):
+			mom_front -= mom_dec_amt
+		if event.is_action("left"):
+			mom_side -= mom_dec_amt
+		if event.is_action("right"):
+			mom_side += mom_dec_amt
 
 
 var doamovespeed = 100
@@ -246,9 +269,28 @@ func z_chk(deg):
 func x_chk(deg):
 	return (abs(rad_to_deg(global_rotation.z)) > deg)
 
+func _process(delta) -> void:
+	$detect_ground / RichTextLabel.text = "Flying ("+str(flyspeed)+")"
+
 func _physics_process(delta):
 	if not is_multiplayer_authority():
 		return  # Only process input if this player is the owner
+
+	# moving in air
+	if is_airborne():
+		rotate_object_local(Vector3.RIGHT, mom_front)
+		rotate_object_local(Vector3.FORWARD, mom_side)
+		
+	var decrease = (-mom_dec_amt if (mom_front > 0) else mom_dec_amt) / 4
+	if (abs(mom_front) < decrease):
+		mom_front = 0
+	else:
+		mom_front += decrease
+	decrease = (-mom_dec_amt if (mom_side > 0) else mom_dec_amt) / 4
+	if (abs(mom_side) < decrease):
+		mom_side = 0
+	else:
+		mom_side += decrease
 
 	if Global.enable_sheep_targetting:
 		Global.sheep_target_position = global_position

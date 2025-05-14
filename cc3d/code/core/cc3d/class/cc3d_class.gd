@@ -24,7 +24,8 @@ func _process(_delta):
 func set_render_resolution(width: int, height: int) -> void:
 	#ProjectSettings.set_setting("display/window/size/viewport_width", width)
 	#ProjectSettings.set_setting("display/window/size/viewport_height", height)
-	get_viewport().set
+	_log("Setting window size to "+str(width)+"x"+str(height), "INFO", "set_render_resolution")
+	DisplayServer.window_set_size(Vector2i(width, height))
 
 static func get_timestamp() -> String:
 	var ts = Time.get_datetime_dict_from_system()
@@ -146,27 +147,27 @@ func spawn_sheep_in_circle(max_sheep: int, center: Vector3, radius: float):
 			vehicle.global_position = center + Vector3(dist * cos(angle), 0, dist * sin(angle))
 			__log.call("sheep had to be moved since colliding w sum")
 
-func grass_decorator(texture, wscale, hscale) -> MultiMeshInstance3D:
-	var i = MultiMeshInstance3D.new()
-	var mm = i.multimesh
-#	mm
-	return i
-
-func spawn_ground_decorators_in_circle(decorator: MultiMeshInstance3D, count: int, center: Vector3, radius: float):
-	var __log = func(msg, type := "INFO"):
-		_log(msg, type, "spawn_ground_decorator_texture_in_circle")
-	__log.call("spawning ground decorators (textures) in a circle of radius "+str(radius)+" centered at "+str(center), "INFO")
-	for num in range(count):
-		var angle = randf_range(0, TAU)
-		var dist = sqrt(randf()) * radius
-		var x = center.x + dist * cos(angle)
-		var z = center.z + dist * sin(angle)
-		var pos = Vector3(x, center.y, z)
-		var rot = Vector3(0, randf_range(0, 6.283), 0)
-		var vehicle = spawn_sheep_at(pos, rot).get_node("VehicleBody3D")
-		var detect_dead = vehicle.get_node("detect_dead")
-		while (detect_dead.is_colliding()):
-			angle = randf_range(0, TAU)
-			dist = sqrt(randf()) * radius
-			vehicle.global_position = center + Vector3(dist * cos(angle), 0, dist * sin(angle))
-			__log.call("decorator had to be moved since colliding w sum")
+#func grass_decorator(texture, wscale, hscale) -> MultiMeshInstance3D:
+	#var i = MultiMeshInstance3D.new()
+	#var mm = i.multimesh
+##	mm
+	#return i
+#
+#func spawn_ground_decorators_in_circle(decorator: MultiMeshInstance3D, count: int, center: Vector3, radius: float):
+	#var __log = func(msg, type := "INFO"):
+		#_log(msg, type, "spawn_ground_decorator_texture_in_circle")
+	#__log.call("spawning ground decorators (textures) in a circle of radius "+str(radius)+" centered at "+str(center), "INFO")
+	#for num in range(count):
+		#var angle = randf_range(0, TAU)
+		#var dist = sqrt(randf()) * radius
+		#var x = center.x + dist * cos(angle)
+		#var z = center.z + dist * sin(angle)
+		#var pos = Vector3(x, center.y, z)
+		#var rot = Vector3(0, randf_range(0, 6.283), 0)
+		#var vehicle = spawn_sheep_at(pos, rot).get_node("VehicleBody3D")
+		#var detect_dead = vehicle.get_node("detect_dead")
+		#while (detect_dead.is_colliding()):
+			#angle = randf_range(0, TAU)
+			#dist = sqrt(randf()) * radius
+			#vehicle.global_position = center + Vector3(dist * cos(angle), 0, dist * sin(angle))
+			#__log.call("decorator had to be moved since colliding w sum")

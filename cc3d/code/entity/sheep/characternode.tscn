@@ -70,6 +70,10 @@ func _physics_process(_delta):
 			$VehicleBody3D/explosion.play()
 			$VehicleBody3D/sheep.queue_free()
 			$VehicleBody3D/CollisionShape3D.queue_free()
+			$VehicleBody3D/TargetTimer.queue_free()
+			$VehicleBody3D/targetcube.queue_free()
+			$VehicleBody3D/detect_sight.queue_free()
+			$VehicleBody3D/detect_dead.queue_free()
 			$Baah.one_shot = true
 			Global.global_sheep -= 1
 			isdead = true
@@ -88,7 +92,7 @@ func _on_timer_timeout() -> void:
 resource_name = "npcscript"
 script/source = "extends VehicleBody3D
 
-var speed_multiplier : float = 1.75
+var speed_multiplier : float = 1.25 #1.33
 
 var ang: float
 var colliding: bool
@@ -119,6 +123,8 @@ func _ready() -> void:
 	if !Global.debug_rendering:
 		$targetcube.visible = false
 	p = get_parent()
+	if Global.enable_sheep_targetting:
+		forced_target = Global.WorldRef.get_node(\"Player\")
 
 func target_update() -> void:
 	if (p.isdead || sleeping):
@@ -148,7 +154,7 @@ func target_update() -> void:
 	var plr = Global.WorldRef.get_node_or_null(\"Player\")
 	if (plr != null):
 		dist_from_player = global_position.distance_squared_to(plr.get_node(\"VehicleBody3D\").global_position)
-		lerp_spd = randf_range(0.005, 0.05) + clamp(abs(($sheep.global_rotation.x) / 2), 0, 0.25)
+		lerp_spd = randf_range(0.005, 0.045) + clamp(abs(($sheep.global_rotation.x) / 2), 0, 1)
 	tdist = sqrt(closest_dist)
 	
 	if (closest_sheep != null):
@@ -175,7 +181,7 @@ func _physics_process(delta):
 			to_target = (tpos - global_position).normalized()
 			
 		desired_rot_y = atan2(to_target.x, to_target.z)  # This is the global angle to face the target
-		if Global.debug_rendering:
+		if (Global.debug_rendering) && (get_node_or_null(\"targetcube\") != null):
 			var cube = $targetcube
 			cube.global_position = tpos
 
